@@ -5,7 +5,7 @@ import {
     ClientOptions as ContractClientOptions,
     MethodOptions,
     Spec as ContractSpec,
-} from '@stellar/stellar-sdk/contract';
+} from '@stellar/stellar-sdk/minimal/contract';
 
 if (typeof window !== 'undefined') {
     //@ts-ignore Buffer exists
@@ -15,11 +15,9 @@ if (typeof window !== 'undefined') {
 export const networks = {
     testnet: {
         networkPassphrase: 'Test SDF Network ; September 2015',
-        contractId: 'CCXZXGRQ6KC3LSA5MDVXMEBUTWGR7UL3DUFXK3FE5RXS2CCQO5QZDT6A',
+        contractId: 'CDKANNTLXEOXD5FYPTSZCLM5S3VZYSIRAQJKXYBTYBE6PUJVHTI7I3JW',
     },
 } as const;
-
-export const Errors = {};
 
 export interface Client {
     /**
@@ -47,7 +45,7 @@ export interface Client {
 }
 export class Client extends ContractClient {
     static async deploy<T = Client>(
-        /** Options for initalizing a Client as well as for calling a method, with extras specific to deploying. */
+        /** Options for initializing a Client as well as for calling a method, with extras specific to deploying. */
         options: MethodOptions &
             Omit<ContractClientOptions, 'contractId'> & {
                 /** The hash of the Wasm blob, which must already be installed on-chain. */
