@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 export const networks = {
     testnet: {
         networkPassphrase: 'Test SDF Network ; September 2015',
-        contractId: 'CCLOAGK2RBSLRRL54DDK43CEORIN3PAMUEHOVBZV3IUF6BE4T27IGJD5',
+        contractId: 'CCZY2TSHKIIYC4UYHZ5DNKHL7BTD5TS7L7TSGPNNAF7VPRAPQ7YZTIWQ',
     },
 } as const;
 
@@ -26,9 +26,9 @@ export const Errors = {
      */
     101: { message: 'AlreadyEntered' },
     /**
-     * Indicates the address has never entered (tested)
+     * Indicates the address is not a winner (tested)
      */
-    102: { message: 'NeverEntered' },
+    102: { message: 'NotWinner' },
     /**
      * Indicates the index number for the entry does not exist
      */
@@ -58,6 +58,14 @@ export const Errors = {
      */
     109: { message: 'AdminCannotClaim' },
     /**
+     * Indicates the the prize does not exist for this winner
+     */
+    111: { message: 'NoPrizeExists' },
+    /**
+     * Indicates a prize index was not found for the entrant
+     */
+    112: { message: 'PrizeNotFount' },
+    /**
      * Indicates there are not enough entrants, and everybody wins (tested)
      */
     201: { message: 'NotEnoughEntrants' },
@@ -71,6 +79,7 @@ export interface EntryData {
     address: string;
     index: u32;
     is_winner: boolean;
+    prize_won: Option<u32>;
     timestamp: u64;
 }
 
@@ -82,6 +91,7 @@ export interface ClaimTime {
 export type Storage =
     | { tag: 'Admin'; values: void }
     | { tag: 'TotalEntries'; values: void }
+    | { tag: 'TotalWinners'; values: void }
     | { tag: 'WinnersChosen'; values: void }
     | { tag: 'TotalClaimed'; values: void }
     | { tag: 'Entrant'; values: readonly [u32] }
@@ -157,7 +167,7 @@ export interface Client {
              */
             simulate?: boolean;
         },
-    ) => Promise<AssembledTransaction<null>>;
+    ) => Promise<AssembledTransaction<u32>>;
 }
 export class Client extends ContractClient {
     static async deploy<T = Client>(
@@ -182,11 +192,11 @@ export class Client extends ContractClient {
                 'AAAAAAAAAAAAAAANX19jb25zdHJ1Y3RvcgAAAAAAAAEAAAAAAAAABWFkbWluAAAAAAAAEwAAAAA=',
                 'AAAAAAAAAAAAAAAMZHJhd193aW5uZXJzAAAAAQAAAAAAAAARbnVtYmVyX29mX3dpbm5lcnMAAAAAAAPoAAAABAAAAAA=',
                 'AAAAAAAAAAAAAAAMZW50ZXJfcmFmZmxlAAAAAQAAAAAAAAAHZW50cmFudAAAAAATAAAAAQAAAAQ=',
-                'AAAAAAAAAAAAAAALY2xhaW1fcHJpemUAAAAAAQAAAAAAAAAHZW50cmFudAAAAAATAAAAAA==',
-                'AAAABAAAAAAAAAAAAAAABkVycm9ycwAAAAAACwAAADFJbmRpY2F0ZXMgdGhlIGFkZHJlc3MgaXMgYWxyZWFkeSBlbnRlcmVkICh0ZXN0ZWQpAAAAAAAADkFscmVhZHlFbnRlcmVkAAAAAABlAAAAMEluZGljYXRlcyB0aGUgYWRkcmVzcyBoYXMgbmV2ZXIgZW50ZXJlZCAodGVzdGVkKQAAAAxOZXZlckVudGVyZWQAAABmAAAAN0luZGljYXRlcyB0aGUgaW5kZXggbnVtYmVyIGZvciB0aGUgZW50cnkgZG9lcyBub3QgZXhpc3QAAAAAD05vRW50cmFudEV4aXN0cwAAAABnAAAAPkluZGljYXRlcyB0aGUgYWRkcmVzcyBoYXMgYWxyZWFkeSBjbGFpbWVkIHRoZWlyIHByaXplICh0ZXN0ZWQpAAAAAAAOQWxyZWFkeUNsYWltZWQAAAAAAGgAAABFSW5kaWNhdGVzIHRoZSBjbGFpbSBzdG9yYWdlIGVudHJ5IGZvciBwcm92aWRlZCBhZGRyZXNzIGRvZXMgbm90IGV4aXN0AAAAAAAADU5vQ2xhaW1FeGlzdHMAAAAAAABpAAAAUUluZGljYXRlcyBhIGNsYWltIGNhbm5vdCBiZSBtYWRlLCBiZWNhdXNlIHdpbm5lcnMgaGF2ZSBub3QgeWV0IGJlbiBkcmF3biAodGVzdGVkKQAAAAAAABBXaW5uZXJzTm90Q2hvc2VuAAAAagAAAEpJbmRpY2F0ZXMgd2lubmVycyBoYXZlIGFscmVhZHkgYmVlbiBjaG9zZW4sIHNvIGVudHJpZXMgYXJlIGNsb3NlZCAodGVzdGVkKQAAAAAADEVudHJ5VG9vTGF0ZQAAAGsAAABRSW5kaWNhdGVzIHRoZSBhZG1pbiBpcyB1cCB0byBzb21ldGhpbmcgYW5kIHRyeWluZyB0byB3aW4gdGhlaXIgb3duIHByaXplICh0ZXN0ZWQpAAAAAAAAEEFkbWluQ2Fubm90RW50ZXIAAABsAAAAS0luZGljYXRlcyB0aGUgYWRtaW4gaXMgdXAgdG8gc29tZXRoaW5nIGFuZCB0cnlpbmcgdG8gY2xhaW0gYSBwcml6ZSAodGVzdGVkKQAAAAAQQWRtaW5DYW5ub3RDbGFpbQAAAG0AAABESW5kaWNhdGVzIHRoZXJlIGFyZSBub3QgZW5vdWdoIGVudHJhbnRzLCBhbmQgZXZlcnlib2R5IHdpbnMgKHRlc3RlZCkAAAARTm90RW5vdWdoRW50cmFudHMAAAAAAADJAAAATEluZGljYXRlcyB0aGUgd2lubmVycyBoYXZlIGFscmVhZHkgYmVlbiBkcmF3biwgd2UgY2Fubm90IGRyYXcgYWdhaW4gKHRlc3RlZCkAAAAUV2lubmVyc0FscmVhZHlDaG9zZW4AAADK',
-                'AAAAAQAAAAAAAAAAAAAACUVudHJ5RGF0YQAAAAAAAAQAAAAAAAAAB2FkZHJlc3MAAAAAEwAAAAAAAAAFaW5kZXgAAAAAAAAEAAAAAAAAAAlpc193aW5uZXIAAAAAAAABAAAAAAAAAAl0aW1lc3RhbXAAAAAAAAAG',
+                'AAAAAAAAAAAAAAALY2xhaW1fcHJpemUAAAAAAQAAAAAAAAAHZW50cmFudAAAAAATAAAAAQAAAAQ=',
+                'AAAABAAAAAAAAAAAAAAABkVycm9ycwAAAAAADQAAADFJbmRpY2F0ZXMgdGhlIGFkZHJlc3MgaXMgYWxyZWFkeSBlbnRlcmVkICh0ZXN0ZWQpAAAAAAAADkFscmVhZHlFbnRlcmVkAAAAAABlAAAALkluZGljYXRlcyB0aGUgYWRkcmVzcyBpcyBub3QgYSB3aW5uZXIgKHRlc3RlZCkAAAAAAAlOb3RXaW5uZXIAAAAAAABmAAAAN0luZGljYXRlcyB0aGUgaW5kZXggbnVtYmVyIGZvciB0aGUgZW50cnkgZG9lcyBub3QgZXhpc3QAAAAAD05vRW50cmFudEV4aXN0cwAAAABnAAAAPkluZGljYXRlcyB0aGUgYWRkcmVzcyBoYXMgYWxyZWFkeSBjbGFpbWVkIHRoZWlyIHByaXplICh0ZXN0ZWQpAAAAAAAOQWxyZWFkeUNsYWltZWQAAAAAAGgAAABFSW5kaWNhdGVzIHRoZSBjbGFpbSBzdG9yYWdlIGVudHJ5IGZvciBwcm92aWRlZCBhZGRyZXNzIGRvZXMgbm90IGV4aXN0AAAAAAAADU5vQ2xhaW1FeGlzdHMAAAAAAABpAAAAUUluZGljYXRlcyBhIGNsYWltIGNhbm5vdCBiZSBtYWRlLCBiZWNhdXNlIHdpbm5lcnMgaGF2ZSBub3QgeWV0IGJlbiBkcmF3biAodGVzdGVkKQAAAAAAABBXaW5uZXJzTm90Q2hvc2VuAAAAagAAAEpJbmRpY2F0ZXMgd2lubmVycyBoYXZlIGFscmVhZHkgYmVlbiBjaG9zZW4sIHNvIGVudHJpZXMgYXJlIGNsb3NlZCAodGVzdGVkKQAAAAAADEVudHJ5VG9vTGF0ZQAAAGsAAABRSW5kaWNhdGVzIHRoZSBhZG1pbiBpcyB1cCB0byBzb21ldGhpbmcgYW5kIHRyeWluZyB0byB3aW4gdGhlaXIgb3duIHByaXplICh0ZXN0ZWQpAAAAAAAAEEFkbWluQ2Fubm90RW50ZXIAAABsAAAAS0luZGljYXRlcyB0aGUgYWRtaW4gaXMgdXAgdG8gc29tZXRoaW5nIGFuZCB0cnlpbmcgdG8gY2xhaW0gYSBwcml6ZSAodGVzdGVkKQAAAAAQQWRtaW5DYW5ub3RDbGFpbQAAAG0AAAA2SW5kaWNhdGVzIHRoZSB0aGUgcHJpemUgZG9lcyBub3QgZXhpc3QgZm9yIHRoaXMgd2lubmVyAAAAAAANTm9Qcml6ZUV4aXN0cwAAAAAAAG8AAAA1SW5kaWNhdGVzIGEgcHJpemUgaW5kZXggd2FzIG5vdCBmb3VuZCBmb3IgdGhlIGVudHJhbnQAAAAAAAANUHJpemVOb3RGb3VudAAAAAAAAHAAAABESW5kaWNhdGVzIHRoZXJlIGFyZSBub3QgZW5vdWdoIGVudHJhbnRzLCBhbmQgZXZlcnlib2R5IHdpbnMgKHRlc3RlZCkAAAARTm90RW5vdWdoRW50cmFudHMAAAAAAADJAAAATEluZGljYXRlcyB0aGUgd2lubmVycyBoYXZlIGFscmVhZHkgYmVlbiBkcmF3biwgd2UgY2Fubm90IGRyYXcgYWdhaW4gKHRlc3RlZCkAAAAUV2lubmVyc0FscmVhZHlDaG9zZW4AAADK',
+                'AAAAAQAAAAAAAAAAAAAACUVudHJ5RGF0YQAAAAAAAAUAAAAAAAAAB2FkZHJlc3MAAAAAEwAAAAAAAAAFaW5kZXgAAAAAAAAEAAAAAAAAAAlpc193aW5uZXIAAAAAAAABAAAAAAAAAAlwcml6ZV93b24AAAAAAAPoAAAABAAAAAAAAAAJdGltZXN0YW1wAAAAAAAABg==',
                 'AAAAAQAAAAAAAAAAAAAACUNsYWltVGltZQAAAAAAAAIAAAAAAAAAA2VuZAAAAAAGAAAAAAAAAAVzdGFydAAAAAAAAAY=',
-                'AAAAAgAAAAAAAAAAAAAAB1N0b3JhZ2UAAAAACAAAAAAAAAAAAAAABUFkbWluAAAAAAAAAAAAAAAAAAAMVG90YWxFbnRyaWVzAAAAAAAAAAAAAAANV2lubmVyc0Nob3NlbgAAAAAAAAAAAAAAAAAADFRvdGFsQ2xhaW1lZAAAAAEAAAAAAAAAB0VudHJhbnQAAAAAAQAAAAQAAAABAAAAAAAAAAVFbnRyeQAAAAAAAAEAAAATAAAAAQAAAAAAAAAGV2lubmVyAAAAAAABAAAABAAAAAEAAAAAAAAAB0NsYWltZWQAAAAAAQAAABM=',
+                'AAAAAgAAAAAAAAAAAAAAB1N0b3JhZ2UAAAAACQAAAAAAAAAAAAAABUFkbWluAAAAAAAAAAAAAAAAAAAMVG90YWxFbnRyaWVzAAAAAAAAAAAAAAAMVG90YWxXaW5uZXJzAAAAAAAAAAAAAAANV2lubmVyc0Nob3NlbgAAAAAAAAAAAAAAAAAADFRvdGFsQ2xhaW1lZAAAAAEAAAAAAAAAB0VudHJhbnQAAAAAAQAAAAQAAAABAAAAAAAAAAVFbnRyeQAAAAAAAAEAAAATAAAAAQAAAAAAAAAGV2lubmVyAAAAAAABAAAABAAAAAEAAAAAAAAAB0NsYWltZWQAAAAAAQAAABM=',
             ]),
             options,
         );
@@ -194,6 +204,6 @@ export class Client extends ContractClient {
     public readonly fromJSON = {
         draw_winners: this.txFromJSON<null>,
         enter_raffle: this.txFromJSON<u32>,
-        claim_prize: this.txFromJSON<null>,
+        claim_prize: this.txFromJSON<u32>,
     };
 }

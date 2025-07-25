@@ -9,7 +9,7 @@ import type { u32, u64, Option } from '@stellar/stellar-sdk/minimal/contract';
 export declare const networks: {
     readonly testnet: {
         readonly networkPassphrase: 'Test SDF Network ; September 2015';
-        readonly contractId: 'CCLOAGK2RBSLRRL54DDK43CEORIN3PAMUEHOVBZV3IUF6BE4T27IGJD5';
+        readonly contractId: 'CCZY2TSHKIIYC4UYHZ5DNKHL7BTD5TS7L7TSGPNNAF7VPRAPQ7YZTIWQ';
     };
 };
 export declare const Errors: {
@@ -20,7 +20,7 @@ export declare const Errors: {
         message: string;
     };
     /**
-     * Indicates the address has never entered (tested)
+     * Indicates the address is not a winner (tested)
      */
     102: {
         message: string;
@@ -68,6 +68,18 @@ export declare const Errors: {
         message: string;
     };
     /**
+     * Indicates the the prize does not exist for this winner
+     */
+    111: {
+        message: string;
+    };
+    /**
+     * Indicates a prize index was not found for the entrant
+     */
+    112: {
+        message: string;
+    };
+    /**
      * Indicates there are not enough entrants, and everybody wins (tested)
      */
     201: {
@@ -84,6 +96,7 @@ export interface EntryData {
     address: string;
     index: u32;
     is_winner: boolean;
+    prize_won: Option<u32>;
     timestamp: u64;
 }
 export interface ClaimTime {
@@ -97,6 +110,10 @@ export type Storage =
       }
     | {
           tag: 'TotalEntries';
+          values: void;
+      }
+    | {
+          tag: 'TotalWinners';
           values: void;
       }
     | {
@@ -195,7 +212,7 @@ export interface Client {
              */
             simulate?: boolean;
         },
-    ) => Promise<AssembledTransaction<null>>;
+    ) => Promise<AssembledTransaction<u32>>;
 }
 export declare class Client extends ContractClient {
     readonly options: ContractClientOptions;
@@ -221,6 +238,6 @@ export declare class Client extends ContractClient {
     readonly fromJSON: {
         draw_winners: (json: string) => AssembledTransaction<null>;
         enter_raffle: (json: string) => AssembledTransaction<number>;
-        claim_prize: (json: string) => AssembledTransaction<null>;
+        claim_prize: (json: string) => AssembledTransaction<number>;
     };
 }

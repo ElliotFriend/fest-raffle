@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { account, send } from "$lib/passkeyClient";
+    import { account, send } from '$lib/passkeyClient';
     // import { keyId } from "$lib/state/keyId";
     // import { contractAddress } from "$lib/state/contractAddress";
-    import { error } from "@sveltejs/kit";
-    import { toaster } from "$lib/toaster";
-    import { user } from "$lib/state/UserState.svelte";
+    import { error } from '@sveltejs/kit';
+    import { toaster } from '$lib/toaster';
+    import { user } from '$lib/state/UserState.svelte';
 
     /**
      * Sign up as a new user, creating a smart wallet along the way.
@@ -12,27 +12,23 @@
     async function signup() {
         console.log('signing up');
         try {
-            const {
-                keyIdBase64,
-                contractId,
-                signedTx,
-            } = await account.createWallet(
+            const { keyIdBase64, contractId, signedTx } = await account.createWallet(
                 'Fest Raffle',
                 'Fest Raffle',
             );
 
             if (!signedTx) {
                 error(500, {
-                    message: 'built transaction missing'
-                })
+                    message: 'built transaction missing',
+                });
             }
 
             user.set({
                 keyId: keyIdBase64,
                 contractAddress: contractId,
             });
-            console.log('keyId', user.keyId)
-            console.log('contractAddress', user.contractAddress)
+            console.log('keyId', user.keyId);
+            console.log('contractAddress', user.contractAddress);
             // keyId.set(keyIdBase64);
             // console.log('keyId', $keyId);
 
@@ -61,8 +57,8 @@
                 keyId: keyIdBase64,
                 contractAddress: contractId,
             });
-            console.log('keyId', user.keyId)
-            console.log('contractAddress', user.contractAddress)
+            console.log('keyId', user.keyId);
+            console.log('contractAddress', user.contractAddress);
 
             // keyId.set(keyIdBase64);
             // console.log($keyId);

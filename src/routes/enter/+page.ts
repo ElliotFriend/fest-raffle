@@ -7,7 +7,7 @@ import { user } from '$lib/state/UserState.svelte';
 import { rpc } from '$lib/passkeyClient';
 
 export const load: PageLoad = async () => {
-    console.log('/enter/+page.ts running')
+    console.log('/enter/+page.ts running');
 
     // create the ledger key
     const ledgerKey = xdr.LedgerKey.contractData(
@@ -18,14 +18,14 @@ export const load: PageLoad = async () => {
                 nativeToScVal(user.contractAddress, { type: 'address' }),
             ]),
             durability: xdr.ContractDataDurability.persistent(),
-        })
-    )
+        }),
+    );
 
     // request the ledger entry
-    const { entries } = await rpc.getLedgerEntries(ledgerKey)
+    const { entries } = await rpc.getLedgerEntries(ledgerKey);
 
     // return whether or not the ledger entry exists
     return {
         hasEntered: !!entries.length,
     };
-}
+};

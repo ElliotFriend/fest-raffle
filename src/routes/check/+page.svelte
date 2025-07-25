@@ -2,7 +2,7 @@
     import type { PageProps } from './$types';
 
     let { data }: PageProps = $props();
-    $inspect('data', data)
+    $inspect('data', data);
 </script>
 
 {#if data.isWinner}

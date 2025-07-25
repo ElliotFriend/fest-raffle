@@ -6,11 +6,10 @@
     import { goto } from '$app/navigation';
     import { user } from '$lib/state/UserState.svelte';
 
-
     function startOver() {
         try {
-            user.reset()
-            goto('/')
+            user.reset();
+            goto('/');
         } catch (err) {
             console.log(err);
             toaster.error({
@@ -28,7 +27,9 @@
                 <Truncated text={user.contractAddress} startChars={5} endChars={5} />
             </div>
             <div>
-                <button type="button" class="btn btn-sm preset-filled" onclick={startOver}>Start Over</button>
+                <button type="button" class="btn btn-sm preset-filled" onclick={startOver}
+                    >Start Over</button
+                >
             </div>
         {:else}
             <div></div>
