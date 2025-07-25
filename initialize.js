@@ -79,7 +79,7 @@ function filenameNoExtension(filename) {
  */
 function deploy(wasm) {
     exe(
-        `stellar contract deploy --wasm ${wasm} --ignore-checks --alias ${filenameNoExtension(wasm)}`,
+        `stellar contract deploy --wasm ${wasm} --ignore-checks --alias ${filenameNoExtension(wasm)} -- --admin ${process.env.STELLAR_ACCOUNT}`,
     );
 }
 
@@ -135,8 +135,6 @@ function bind({ alias, id }) {
     exe(
         `stellar contract bindings typescript --id ${id} --output-dir ${dirname}/packages/${alias} --overwrite`,
     );
-
-    exe(`cd packages/${alias} && pnpm install && pnpm run build && cd ../..`);
 }
 
 /**
@@ -159,10 +157,10 @@ function importContract({ alias }) {
 
     // the required imports/exports for the library
     const importContent =
-        `import * as Client from '${alias}';\n` +
+        `import { Client, networks } from '${alias}';\n` +
         `import { PUBLIC_STELLAR_RPC_URL } from '$env/static/public';\n\n` +
-        `export default new Client.Client({\n` +
-        `    ...Client.networks.${process.env.STELLAR_NETWORK},\n` +
+        `export default new Client({\n` +
+        `    ...networks.${process.env.STELLAR_NETWORK},\n` +
         `    rpcUrl: PUBLIC_STELLAR_RPC_URL,\n` +
         `});\n`;
 

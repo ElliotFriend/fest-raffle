@@ -3,8 +3,7 @@ use soroban_sdk::{contractimpl, panic_with_error, Address, Env};
 use crate::{
     errors::Errors,
     storage::{
-        create_entry, extend_instance_ttl, get_admin, has_claimed, has_entry, has_winners_chosen,
-        set_claimed, winners_chosen_in_past,
+        create_entry, extend_instance_ttl, get_admin, get_entry, has_claimed, has_entry, has_winners_chosen, is_winner, set_claimed, winners_chosen_in_past
     },
     EntrantTrait, RaffleContract, RaffleContractArgs, RaffleContractClient,
 };
@@ -39,7 +38,10 @@ impl EntrantTrait for RaffleContract {
         return index;
     }
 
-    fn claim_prize(env: Env, entrant: Address) {
+    fn claim_prize(env: Env, entrant: Address) -> u32 {
+        // require authorization
+        entrant.require_auth();
+
         // make sure we've already chosen the winners
         if !winners_chosen_in_past(&env) {
             panic_with_error!(&env, Errors::WinnersNotChosen);
@@ -50,9 +52,9 @@ impl EntrantTrait for RaffleContract {
             panic_with_error!(&env, Errors::AdminCannotClaim)
         }
 
-        // make sure we've actually entered the raffle
-        if !has_entry(&env, &entrant) {
-            panic_with_error!(&env, Errors::NeverEntered);
+        // make sure they've actually won!
+        if !is_winner(&env, &entrant) {
+            panic_with_error!(&env, Errors::NotWinner);
         }
 
         // make sure we haven't already claimed
@@ -60,13 +62,15 @@ impl EntrantTrait for RaffleContract {
             panic_with_error!(&env, Errors::AlreadyClaimed);
         }
 
-        // require authorization
-        entrant.require_auth();
+        let entry_data = get_entry(&env, &entrant);
 
         // set the user as having claimed now
         set_claimed(&env, &entrant);
 
         // finally, extend the contract TTL
         extend_instance_ttl(&env);
+
+        // return prize_won;
+        return entry_data.prize_won.unwrap_or_else(|| panic_with_error!(&env, Errors::NoPrizeExists));
     }
 }

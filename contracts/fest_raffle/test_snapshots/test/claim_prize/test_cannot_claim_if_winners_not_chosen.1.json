@@ -144,6 +144,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {

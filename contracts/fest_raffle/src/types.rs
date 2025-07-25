@@ -6,6 +6,7 @@ pub struct EntryData {
     pub address: Address,
     pub timestamp: u64,
     pub is_winner: bool,
+    pub prize_won: Option<u32>,
 }
 
 #[contracttype]
@@ -14,17 +15,12 @@ pub struct ClaimTime {
     pub end: u64,
 }
 
-// #[contracttype]
-// pub struct WinnerData {
-//     pub winner: Address,
-//     pub claimed_at: u64,
-// }
-
 #[contracttype]
 #[derive(Clone)]
 pub enum Storage {
     Admin,          // : address
     TotalEntries,   // : u32
+    TotalWinners, // : u32
     WinnersChosen,  // : u64 timestamp
     TotalClaimed,   // : u32
     Entrant(u32),   // : address

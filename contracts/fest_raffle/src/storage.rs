@@ -42,6 +42,7 @@ pub fn create_entry(env: &Env, entrant: &Address) -> u32 {
         index: entry_index.clone(),
         is_winner: false,
         timestamp: env.ledger().timestamp(),
+        prize_won: None,
     };
 
     env.storage()
@@ -67,13 +68,21 @@ pub fn get_entry(env: &Env, entrant: &Address) -> EntryData {
     env.storage()
         .persistent()
         .get(&Storage::Entry(entrant.clone()))
-        .unwrap_or_else(|| panic_with_error!(env, Errors::NeverEntered))
+        .unwrap_or_else(|| panic_with_error!(env, Errors::NotWinner))
 }
 
 pub fn has_entry(env: &Env, entrant: &Address) -> bool {
     env.storage()
         .persistent()
         .has(&Storage::Entry(entrant.clone()))
+}
+
+pub fn is_winner(env: &Env, entrant: &Address) -> bool {
+    let entry: EntryData = env.storage()
+        .persistent()
+        .get(&Storage::Entry(entrant.clone()))
+        .unwrap_or_else(|| panic_with_error!(env, Errors::NotWinner));
+    return entry.is_winner
 }
 
 pub fn set_winner(env: &Env, winner: &Address, winner_index: &u32) {
@@ -83,6 +92,7 @@ pub fn set_winner(env: &Env, winner: &Address, winner_index: &u32) {
 
     let mut entry_data = get_entry(&env, winner);
     entry_data.is_winner = true;
+    entry_data.prize_won = Some(winner_index.clone());
     env.storage()
         .persistent()
         .set(&Storage::Entry(winner.clone()), &entry_data);
@@ -109,6 +119,10 @@ pub fn winners_chosen_in_past(env: &Env) -> bool {
     };
 
     return now_is_after;
+}
+
+pub fn set_total_winners(env: &Env, num_winners: &u32) {
+    env.storage().instance().set(&Storage::TotalWinners, num_winners);
 }
 
 pub fn set_claimed(env: &Env, winner: &Address) {

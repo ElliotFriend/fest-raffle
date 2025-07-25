@@ -5,8 +5,8 @@ import {
     PUBLIC_STELLAR_RPC_URL,
     PUBLIC_STELLAR_NETWORK_PASSPHRASE,
     PUBLIC_WALLET_WASM_HASH,
-    PUBLIC_NATIVE_CONTRACT_ADDRESS,
 } from '$env/static/public';
+import type { Tx } from '@stellar/stellar-sdk/minimal/contract';
 
 /**
  * A configured Stellar RPC server instance used to interact with the network
@@ -24,20 +24,6 @@ export const account = new PasskeyKit({
 });
 
 /**
- * A client allowing us to easily create SAC clients for any asset on the
- * network.
- */
-const sac = new SACClient({
-    rpcUrl: PUBLIC_STELLAR_RPC_URL,
-    networkPassphrase: PUBLIC_STELLAR_NETWORK_PASSPHRASE,
-});
-
-/**
- * A SAC client for the native XLM asset.
- */
-export const native = sac.getSACClient(PUBLIC_NATIVE_CONTRACT_ADDRESS);
-
-/**
  * A wrapper function so it's easier for our client-side code to access the
  * `/api/send` endpoint we have created.
  *
@@ -45,11 +31,11 @@ export const native = sac.getSACClient(PUBLIC_NATIVE_CONTRACT_ADDRESS);
  * **must** contain a Soroban operation
  * @returns JSON object containing the RPC's response
  */
-export async function send(xdr: string) {
+export async function send(tx: Tx) {
     return fetch('/api/send', {
         method: 'POST',
         body: JSON.stringify({
-            xdr,
+            xdr: tx.toXDR(),
         }),
     }).then(async (res) => {
         if (res.ok) return res.json();

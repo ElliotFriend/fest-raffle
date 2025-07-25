@@ -29,21 +29,5 @@ pub trait AdminTrait {
 pub trait EntrantTrait {
     fn enter_raffle(env: Env, entrant: Address) -> u32;
 
-    fn claim_prize(env: Env, entrant: Address);
+    fn claim_prize(env: Env, entrant: Address) -> u32;
 }
-
-// #[contractimpl]
-// impl RaffleContract {
-//     pub fn __constructor(env: Env, admin: Address) {
-//         set_admin(&env, &admin);
-//         extend_instance_ttl(&env);
-//     }
-
-//     pub fn enter_raffle(env: Env, entrant: Address) {
-
-//     }
-
-//     pub fn hello(env: Env, to: String) -> Vec<String> {
-//         vec![&env, String::from_str(&env, "Hello"), to]
-//     }
-// }

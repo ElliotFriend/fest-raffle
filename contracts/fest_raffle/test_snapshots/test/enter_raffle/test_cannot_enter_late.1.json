@@ -3330,6 +3330,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -3404,6 +3410,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 3
                       }
                     },
                     {
@@ -3486,6 +3500,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -3560,6 +3580,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 6
                       }
                     },
                     {
@@ -3642,6 +3670,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -3716,6 +3750,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 2
                       }
                     },
                     {
@@ -3798,6 +3840,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -3872,6 +3920,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 23
                       }
                     },
                     {
@@ -3954,6 +4010,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4028,6 +4090,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 24
                       }
                     },
                     {
@@ -4110,6 +4180,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 11
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4185,6 +4263,12 @@
                       "val": {
                         "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -4266,6 +4350,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4341,6 +4431,12 @@
                       "val": {
                         "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -4422,6 +4518,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4500,6 +4602,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 14
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4573,7 +4683,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 25
                       }
                     },
                     {
@@ -4656,6 +4774,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4734,6 +4858,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -4807,7 +4939,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 22
                       }
                     },
                     {
@@ -4885,8 +5025,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -4968,6 +5114,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5043,6 +5195,12 @@
                       "val": {
                         "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -5124,6 +5282,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5198,6 +5362,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 4
                       }
                     },
                     {
@@ -5280,6 +5452,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 9
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5354,6 +5534,14 @@
                       },
                       "val": {
                         "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 12
                       }
                     },
                     {
@@ -5436,6 +5624,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 15
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5514,6 +5710,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 5
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5587,8 +5791,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -5665,7 +5875,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 16
                       }
                     },
                     {
@@ -5748,6 +5966,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 7
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5821,8 +6047,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -5904,6 +6136,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 20
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -5977,7 +6217,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 21
                       }
                     },
                     {
@@ -6055,8 +6303,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -6138,6 +6392,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -6211,7 +6471,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 13
                       }
                     },
                     {
@@ -6289,8 +6557,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -6372,6 +6646,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -6447,6 +6727,12 @@
                       "val": {
                         "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -6528,6 +6814,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -6601,7 +6893,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 17
                       }
                     },
                     {
@@ -6684,6 +6984,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 19
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -6757,8 +7065,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -6840,6 +7154,12 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -6913,7 +7233,15 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": false
+                        "bool": true
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 10
                       }
                     },
                     {
@@ -6996,6 +7324,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 18
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -7074,6 +7410,14 @@
                     },
                     {
                       "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": {
+                        "u32": 8
+                      }
+                    },
+                    {
+                      "key": {
                         "symbol": "timestamp"
                       },
                       "val": {
@@ -7147,8 +7491,14 @@
                         "symbol": "is_winner"
                       },
                       "val": {
-                        "bool": true
+                        "bool": false
                       }
+                    },
+                    {
+                      "key": {
+                        "symbol": "prize_won"
+                      },
+                      "val": "void"
                     },
                     {
                       "key": {
@@ -7383,7 +7733,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACBKTY"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6FV7"
                 }
               }
             },
@@ -7518,7 +7868,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIHZK"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADH6C2"
                 }
               }
             },
@@ -7563,7 +7913,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB2VE7"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABY5MP"
                 }
               }
             },
@@ -7608,7 +7958,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADFWKK"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDOT2"
                 }
               }
             },
@@ -7698,7 +8048,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4N5P"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB2VE7"
                 }
               }
             },
@@ -7743,7 +8093,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACTA7J"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACRIXZ"
                 }
               }
             },
@@ -7833,7 +8183,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6FV7"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4N5P"
                 }
               }
             },
@@ -7878,7 +8228,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABY5MP"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDC3I"
                 }
               }
             },
@@ -7923,7 +8273,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4ZEZ"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC2B5J"
                 }
               }
             },
@@ -7968,7 +8318,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADH6C2"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADFWKK"
                 }
               }
             },
@@ -8013,7 +8363,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC6RMJ"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4ZEZ"
                 }
               }
             },
@@ -8103,7 +8453,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACM3AY"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACKDZI"
                 }
               }
             },
@@ -8148,7 +8498,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABOHR6"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMPZO"
                 }
               }
             },
@@ -8283,7 +8633,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACHSKI"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABHGT6"
                 }
               }
             },
@@ -8337,6 +8687,18 @@
                         },
                         "val": {
                           "u32": 50
+                        }
+                      },
+                      {
+                        "key": {
+                          "vec": [
+                            {
+                              "symbol": "TotalWinners"
+                            }
+                          ]
+                        },
+                        "val": {
+                          "u32": 25
                         }
                       },
                       {

@@ -14,6 +14,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.11
         version: 4.1.11(vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.6.1))
+      fest_raffle:
+        specifier: file:packages/fest_raffle
+        version: file:packages/fest_raffle
       hello_world:
         specifier: file:packages/hello_world
         version: file:packages/hello_world
@@ -1258,6 +1261,9 @@ packages:
 
   feaxios@0.0.23:
     resolution: {integrity: sha512-eghR0A21fvbkcQBgZuMfQhrXxJzC0GNUGC9fXhBge33D+mFDTwl0aJ35zoQQn575BhyjQitRc5N4f+L4cP708g==}
+
+  fest_raffle@file:packages/fest_raffle:
+    resolution: {directory: packages/fest_raffle, type: directory}
 
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
@@ -3322,6 +3328,13 @@ snapshots:
   feaxios@0.0.23:
     dependencies:
       is-retry-allowed: 3.0.0
+
+  fest_raffle@file:packages/fest_raffle:
+    dependencies:
+      '@stellar/stellar-sdk': 13.3.0
+      buffer: 6.0.3
+    transitivePeerDependencies:
+      - debug
 
   file-entry-cache@8.0.0:
     dependencies:

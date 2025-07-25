@@ -6,8 +6,8 @@ use soroban_sdk::contracterror;
 pub enum Errors {
     /// Indicates the address is already entered (tested)
     AlreadyEntered = 101,
-    /// Indicates the address has never entered (tested)
-    NeverEntered = 102,
+    /// Indicates the address is not a winner (tested)
+    NotWinner = 102,
     /// Indicates the index number for the entry does not exist
     NoEntrantExists = 103,
     /// Indicates the address has already claimed their prize (tested)
@@ -22,6 +22,10 @@ pub enum Errors {
     AdminCannotEnter = 108,
     /// Indicates the admin is up to something and trying to claim a prize (tested)
     AdminCannotClaim = 109,
+    /// Indicates the the prize does not exist for this winner
+    NoPrizeExists = 111,
+    /// Indicates a prize index was not found for the entrant
+    PrizeNotFount = 112,
     /// Indicates there are not enough entrants, and everybody wins (tested)
     NotEnoughEntrants = 201,
     /// Indicates the winners have already been drawn, we cannot draw again (tested)
