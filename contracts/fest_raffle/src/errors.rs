@@ -30,4 +30,6 @@ pub enum Errors {
     NotEnoughEntrants = 201,
     /// Indicates the winners have already been drawn, we cannot draw again (tested)
     WinnersAlreadyChosen = 202,
+    /// Indicates the winners haven't been drawn, so we can't map the addresses
+    WinnersNotDrawnYet = 203,
 }

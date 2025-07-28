@@ -1,3 +1,5 @@
+use soroban_sdk::Vec;
+
 use super::*;
 
 #[test]
@@ -18,7 +20,8 @@ fn test_happy_path() {
     }
 
     // use the default, 25 winners
-    client.draw_winners(&None);
+    client.draw_winners(&Some(25));
+    client.map_winners();
 
     env.as_contract(&contract_id, || {
         // make sure the winners have been chosen at the right timestamp
@@ -27,16 +30,22 @@ fn test_happy_path() {
             .instance()
             .get::<_, u64>(&Storage::WinnersChosen)
             .is_some_and(|t| t == env.ledger().timestamp()));
-        for i in 1..=25 {
-            assert!(env.storage().persistent().has(&Storage::Winner(i)));
+        assert!(env
+            .storage()
+            .instance()
+            .get::<_, u32>(&Storage::TotalWinners)
+            .is_some_and(|w| w == 25));
+        for i in 0..25 {
+            assert!(env.storage().persistent().has(&Storage::Winner(i + 1)));
             assert!(env
                 .storage()
                 .persistent()
-                .get::<_, Address>(&Storage::Winner(i))
+                .get::<_, Address>(&Storage::Winner(i + 1))
                 .is_some());
 
-            let winner_address: Address =
-                env.storage().persistent().get(&Storage::Winner(i)).unwrap();
+            let winner_index: u32 =
+                env.storage().persistent().get::<_, Vec<u32>>(&Storage::Winners).unwrap().get(i).unwrap();
+            let winner_address: Address = env.storage().persistent().get(&Storage::Entrant(winner_index)).unwrap();
             let entry_data: EntryData = env
                 .storage()
                 .persistent()
@@ -46,6 +55,7 @@ fn test_happy_path() {
             assert_eq!(entry_data.address, winner_address);
             assert!(entry_data.timestamp > 0);
             assert!(entry_data.index < 50);
+            assert_eq!(entry_data.prize_won, Some(i + 1));
 
             // make sure they haven't yet claimed
             assert!(env
@@ -70,7 +80,7 @@ fn test_happy_path() {
         assert!(env
             .storage()
             .instance()
-            .get::<_, Address>(&Storage::Winner(25))
+            .get::<_, Address>(&Storage::Winner(26))
             .is_none());
     });
 }

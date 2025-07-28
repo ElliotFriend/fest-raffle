@@ -1,7 +1,5 @@
 <script lang="ts">
     import { account, send } from '$lib/passkeyClient';
-    // import { keyId } from "$lib/state/keyId";
-    // import { contractAddress } from "$lib/state/contractAddress";
     import { error } from '@sveltejs/kit';
     import { toaster } from '$lib/toaster';
     import { user } from '$lib/state/UserState.svelte';
@@ -27,13 +25,9 @@
                 keyId: keyIdBase64,
                 contractAddress: contractId,
             });
+
             console.log('keyId', user.keyId);
             console.log('contractAddress', user.contractAddress);
-            // keyId.set(keyIdBase64);
-            // console.log('keyId', $keyId);
-
-            // contractAddress.set(contractId);
-            // console.log('contractAddress', $contractAddress)
 
             await send(signedTx);
         } catch (err) {
@@ -57,14 +51,9 @@
                 keyId: keyIdBase64,
                 contractAddress: contractId,
             });
+
             console.log('keyId', user.keyId);
             console.log('contractAddress', user.contractAddress);
-
-            // keyId.set(keyIdBase64);
-            // console.log($keyId);
-
-            // contractAddress.set(contractId);
-            // console.log($contractAddress);
         } catch (err) {
             console.error(err);
             toaster.error({

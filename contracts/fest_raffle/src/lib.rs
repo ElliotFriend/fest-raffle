@@ -23,7 +23,11 @@ pub struct RaffleContract;
 pub trait AdminTrait {
     fn __constructor(env: Env, admin: Address);
 
+    fn set_admin(env: Env, new_admin: Address);
+
     fn draw_winners(env: Env, number_of_winners: Option<u32>);
+
+    fn map_winners(env: Env);
 }
 
 pub trait EntrantTrait {

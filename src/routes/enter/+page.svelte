@@ -1,26 +1,22 @@
 <script lang="ts">
-    // import { contractAddress } from "$lib/state/contractAddress";
-    // import { keyId } from "$lib/state/keyId";
     import { account, send } from '$lib/passkeyClient';
     import { toaster } from '$lib/toaster';
     import raffleClient from '$lib/contracts/fest_raffle';
     import { xdr } from '@stellar/stellar-sdk/minimal';
     import type { PageProps } from './$types';
-    import { goto } from '$app/navigation';
     let { data }: PageProps = $props();
     import { user } from '$lib/state/UserState.svelte';
     import { Api } from '@stellar/stellar-sdk/minimal/rpc';
+    import Ticket from '@lucide/svelte/icons/ticket';
+    import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
 
-    // $derived.by(() => {
-    // if (!user.contractAddress) {
-    //     goto('/connect')
-    // }
-    // })
+    let isEntering = $state(false);
 
     async function enterRaffle() {
         if (user.contractAddress && user.keyId) {
             try {
                 console.log('entering raffle');
+                isEntering = true;
 
                 let at = await raffleClient.enter_raffle({
                     entrant: user.contractAddress,
@@ -43,13 +39,15 @@
                 const entrantIndex = xdr.ScVal.fromXDR(returnValue, 'base64').u32();
                 toaster.success({
                     title: 'Success!',
-                    description: `You successfully entered the raffle. You're number ${entrantIndex} to do so! Great work!`,
+                    description: `You successfully entered the raffle. You're number ${entrantIndex + 1} to do so! Great work!`,
                 });
             } catch (err) {
                 toaster.error({
                     title: 'Error',
                     description: err,
                 });
+            } finally {
+                isEntering = false;
             }
         } else {
             toaster.info({
@@ -64,9 +62,18 @@
     <h1 class="h1">You're just a tap away from being a winner.</h1>
     <p>Press the button to enter the raffle.</p>
     <div>
-        <button class="btn preset-filled" onclick={enterRaffle} disabled={!user.contractAddress}
-            >Enter</button
+        <button
+            class="btn preset-filled"
+            onclick={enterRaffle}
+            disabled={!user.contractAddress || isEntering}
         >
+            {#if isEntering}
+                <LoaderPinwheel size={18} class="animate-spin" />
+            {:else}
+                <Ticket size={18} />
+            {/if}
+            <span>Enter</span>
+        </button>
     </div>
 {:else}
     <h1 class="h1">Thanks for entering!</h1>

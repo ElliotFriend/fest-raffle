@@ -1,4 +1,4 @@
-use soroban_sdk::{panic_with_error, Address, Env};
+use soroban_sdk::{panic_with_error, Address, Env, Vec};
 
 use crate::{
     errors::Errors,
@@ -26,7 +26,7 @@ pub fn get_total_entries(env: &Env) -> u32 {
     env.storage()
         .instance()
         .get(&Storage::TotalEntries)
-        .unwrap_or(0u32)
+        .unwrap_or_default()
 }
 
 pub fn increment_total_entries(env: &Env, current: &u32) {
@@ -85,14 +85,14 @@ pub fn is_winner(env: &Env, entrant: &Address) -> bool {
     return entry.is_winner
 }
 
-pub fn set_winner(env: &Env, winner: &Address, winner_index: &u32) {
+pub fn set_winner(env: &Env, winner: &Address, win_index: &u32) {
     env.storage()
         .persistent()
-        .set(&Storage::Winner(winner_index.clone()), winner);
+        .set(&Storage::Winner(win_index.clone()), winner);
 
     let mut entry_data = get_entry(&env, winner);
     entry_data.is_winner = true;
-    entry_data.prize_won = Some(winner_index.clone());
+    entry_data.prize_won = Some(win_index.clone());
     env.storage()
         .persistent()
         .set(&Storage::Entry(winner.clone()), &entry_data);
@@ -121,8 +121,20 @@ pub fn winners_chosen_in_past(env: &Env) -> bool {
     return now_is_after;
 }
 
+pub fn set_winners(env: &Env, winning_indexes: Vec<u32>) {
+    env.storage().persistent().set(&Storage::Winners, &winning_indexes);
+}
+
+pub fn get_winners(env: &Env) -> Vec<u32> {
+    env.storage().persistent().get(&Storage::Winners).unwrap()
+}
+
 pub fn set_total_winners(env: &Env, num_winners: &u32) {
     env.storage().instance().set(&Storage::TotalWinners, num_winners);
+}
+
+pub fn get_total_winners(env: &Env) -> u32 {
+    env.storage().instance().get(&Storage::TotalWinners).unwrap()
 }
 
 pub fn set_claimed(env: &Env, winner: &Address) {

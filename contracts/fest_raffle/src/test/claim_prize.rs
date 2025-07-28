@@ -18,6 +18,7 @@ fn test_happy_path() {
     }
 
     client.draw_winners(&None);
+    client.map_winners();
 
     for i in 1..=25 {
         // figure out the address we're claiming for
@@ -76,6 +77,7 @@ fn test_happy_path_with_one_winner() {
     }
 
     client.draw_winners(&Some(1));
+    client.map_winners();
 
     // give some distance in time from when the winners were chosen
     let temp_timestamp = env.ledger().timestamp();
@@ -132,6 +134,8 @@ fn test_cannot_claim_if_never_entered() {
     }
 
     client.draw_winners(&None);
+    client.map_winners();
+
     let temp_timestamp = env.ledger().timestamp();
     let new_timestamp = temp_timestamp + 1000;
     env.ledger().set_timestamp(new_timestamp);
@@ -160,6 +164,7 @@ fn test_cannot_claim_again() {
     }
 
     client.draw_winners(&Some(1));
+    client.map_winners();
 
     // give some distance in time from when the winners were chosen
     let temp_timestamp = env.ledger().timestamp();
@@ -212,6 +217,8 @@ fn test_admin_cannot_claim() {
     }
 
     client.draw_winners(&None);
+    client.map_winners();
+
     let temp_timestamp = env.ledger().timestamp();
     let new_timestamp = temp_timestamp + 1000;
     env.ledger().set_timestamp(new_timestamp);

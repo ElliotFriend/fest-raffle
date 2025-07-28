@@ -54,6 +54,8 @@ fn test_happy_path() {
             assert_eq!(entry_data.address, entrant);
             // entry timestamp is the ledger timestamp
             assert_eq!(entry_data.timestamp, new_timestamp);
+            // prize_won should be none
+            // assert_eq!(entry_data.prize_won, 0);
         })
     }
 

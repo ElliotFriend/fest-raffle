@@ -964,7 +964,9 @@
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
               "function_name": "draw_winners",
               "args": [
-                "void"
+                {
+                  "u32": 25
+                }
               ]
             }
           },
@@ -972,6 +974,7 @@
         }
       ]
     ],
+    [],
     []
   ],
   "ledger": {
@@ -3417,7 +3420,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 3
+                        "u32": 5
                       }
                     },
                     {
@@ -3587,7 +3590,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 6
+                        "u32": 7
                       }
                     },
                     {
@@ -3757,7 +3760,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 2
+                        "u32": 4
                       }
                     },
                     {
@@ -3927,7 +3930,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 23
+                        "u32": 12
                       }
                     },
                     {
@@ -4097,7 +4100,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 24
+                        "u32": 18
                       }
                     },
                     {
@@ -4183,7 +4186,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 11
+                        "u32": 15
                       }
                     },
                     {
@@ -4605,7 +4608,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 14
+                        "u32": 23
                       }
                     },
                     {
@@ -4691,7 +4694,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 25
+                        "u32": 9
                       }
                     },
                     {
@@ -4861,7 +4864,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 1
+                        "u32": 6
                       }
                     },
                     {
@@ -4947,7 +4950,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 22
+                        "u32": 24
                       }
                     },
                     {
@@ -5369,7 +5372,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 4
+                        "u32": 8
                       }
                     },
                     {
@@ -5455,7 +5458,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 9
+                        "u32": 1
                       }
                     },
                     {
@@ -5541,7 +5544,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 12
+                        "u32": 17
                       }
                     },
                     {
@@ -5627,7 +5630,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 15
+                        "u32": 14
                       }
                     },
                     {
@@ -5713,7 +5716,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 5
+                        "u32": 20
                       }
                     },
                     {
@@ -5883,7 +5886,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 16
+                        "u32": 19
                       }
                     },
                     {
@@ -5969,7 +5972,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 7
+                        "u32": 21
                       }
                     },
                     {
@@ -6139,7 +6142,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 20
+                        "u32": 3
                       }
                     },
                     {
@@ -6225,7 +6228,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 21
+                        "u32": 25
                       }
                     },
                     {
@@ -6901,7 +6904,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 17
+                        "u32": 11
                       }
                     },
                     {
@@ -6987,7 +6990,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 19
+                        "u32": 10
                       }
                     },
                     {
@@ -7241,7 +7244,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 10
+                        "u32": 22
                       }
                     },
                     {
@@ -7327,7 +7330,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 18
+                        "u32": 2
                       }
                     },
                     {
@@ -7413,7 +7416,7 @@
                         "symbol": "prize_won"
                       },
                       "val": {
-                        "u32": 8
+                        "u32": 16
                       }
                     },
                     {
@@ -7553,7 +7556,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABKXA6"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABY5MP"
                 }
               }
             },
@@ -7598,7 +7601,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARQG5"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADFWKK"
                 }
               }
             },
@@ -7643,7 +7646,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACILRY"
                 }
               }
             },
@@ -7688,7 +7691,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXEX7"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARQG5"
                 }
               }
             },
@@ -7733,7 +7736,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6FV7"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
                 }
               }
             },
@@ -7778,7 +7781,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABKXA6"
                 }
               }
             },
@@ -7823,7 +7826,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACF2CY"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
                 }
               }
             },
@@ -7868,7 +7871,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADH6C2"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXEX7"
                 }
               }
             },
@@ -7913,7 +7916,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABY5MP"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABHGT6"
                 }
               }
             },
@@ -7958,7 +7961,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDOT2"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4ZEZ"
                 }
               }
             },
@@ -8003,7 +8006,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2ZMN"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC2B5J"
                 }
               }
             },
@@ -8048,7 +8051,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB2VE7"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVAX5"
                 }
               }
             },
@@ -8138,7 +8141,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFO3O"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4N5P"
                 }
               }
             },
@@ -8183,7 +8186,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4N5P"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2ZMN"
                 }
               }
             },
@@ -8228,7 +8231,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDC3I"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADH6C2"
                 }
               }
             },
@@ -8273,7 +8276,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC2B5J"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB2VE7"
                 }
               }
             },
@@ -8318,7 +8321,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADFWKK"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYRE5"
                 }
               }
             },
@@ -8363,7 +8366,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4ZEZ"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDC3I"
                 }
               }
             },
@@ -8408,7 +8411,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACILRY"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6FV7"
                 }
               }
             },
@@ -8453,7 +8456,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACKDZI"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACF2CY"
                 }
               }
             },
@@ -8498,7 +8501,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMPZO"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDOT2"
                 }
               }
             },
@@ -8543,7 +8546,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVAX5"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFO3O"
                 }
               }
             },
@@ -8588,7 +8591,7 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYRE5"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMPZO"
                 }
               }
             },
@@ -8633,7 +8636,122 @@
                 },
                 "durability": "persistent",
                 "val": {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABHGT6"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACKDZI"
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          4095
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "Winners"
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "Winners"
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "vec": [
+                    {
+                      "u32": 25
+                    },
+                    {
+                      "u32": 47
+                    },
+                    {
+                      "u32": 33
+                    },
+                    {
+                      "u32": 5
+                    },
+                    {
+                      "u32": 1
+                    },
+                    {
+                      "u32": 18
+                    },
+                    {
+                      "u32": 3
+                    },
+                    {
+                      "u32": 24
+                    },
+                    {
+                      "u32": 16
+                    },
+                    {
+                      "u32": 43
+                    },
+                    {
+                      "u32": 42
+                    },
+                    {
+                      "u32": 7
+                    },
+                    {
+                      "u32": 37
+                    },
+                    {
+                      "u32": 27
+                    },
+                    {
+                      "u32": 10
+                    },
+                    {
+                      "u32": 48
+                    },
+                    {
+                      "u32": 26
+                    },
+                    {
+                      "u32": 9
+                    },
+                    {
+                      "u32": 30
+                    },
+                    {
+                      "u32": 28
+                    },
+                    {
+                      "u32": 31
+                    },
+                    {
+                      "u32": 46
+                    },
+                    {
+                      "u32": 15
+                    },
+                    {
+                      "u32": 19
+                    },
+                    {
+                      "u32": 34
+                    }
+                  ]
                 }
               }
             },

@@ -5,6 +5,24 @@
     import Truncated from './Truncated.svelte';
     import { goto } from '$app/navigation';
     import { user } from '$lib/state/UserState.svelte';
+    import { onMount } from 'svelte';
+    import { account } from '$lib/passkeyClient';
+
+    onMount(async () => {
+        if (user.keyId) {
+            console.log('keyId', user.keyId);
+
+            const { contractId } = await account.connectWallet({
+                keyId: user.keyId,
+            });
+            user.set({
+                keyId: user.keyId,
+                contractAddress: contractId,
+            });
+
+            console.log('contractAddress', user.contractAddress);
+        }
+    });
 
     function startOver() {
         try {

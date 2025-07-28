@@ -71,6 +71,7 @@ impl EntrantTrait for RaffleContract {
         extend_instance_ttl(&env);
 
         // return prize_won;
-        return entry_data.prize_won.unwrap_or_else(|| panic_with_error!(&env, Errors::NoPrizeExists));
+        return entry_data.prize_won.unwrap();
+        // return 100u32;
     }
 }

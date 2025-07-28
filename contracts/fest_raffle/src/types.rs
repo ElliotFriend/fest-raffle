@@ -6,7 +6,7 @@ pub struct EntryData {
     pub address: Address,
     pub timestamp: u64,
     pub is_winner: bool,
-    pub prize_won: Option<u32>,
+    pub prize_won: Option<u32>
 }
 
 #[contracttype]
@@ -27,6 +27,7 @@ pub enum Storage {
     Entry(Address), // : EntryData
     Winner(u32),    // : address
     Claimed(Address), // : u64 timestamp
+    Winners, // : vec<u32>
                     // WinnerIndex(u32), // : address
                     // Winner(Address), // : index
                     // Entry(Address), // : u64 timestamp
