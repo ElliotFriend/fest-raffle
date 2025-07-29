@@ -4,7 +4,7 @@ import { xdr, Address, nativeToScVal, scValToNative } from '@stellar/stellar-sdk
 import { PUBLIC_RAFFLE_CONTRACT } from '$env/static/public';
 import { rpc } from '$lib/passkeyClient';
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ depends }) => {
     // console.log('user', user.contractAddress)
     const contractScAddress = new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress();
 
@@ -39,6 +39,8 @@ export const load: PageLoad = async () => {
         const val = scValToNative(e.val.contractData().val());
         returnObj[key === 'Entry' ? 'entry' : 'claimedAt'] = val;
     });
+
+    depends('app:claim')
 
     return returnObj;
 };

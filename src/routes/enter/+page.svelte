@@ -43,7 +43,7 @@
                     description: `You successfully entered the raffle. You're number ${entrantIndex + 1} to do so! Great work!`,
                 });
 
-                invalidate('/enter');
+                invalidate('app:enter');
             } catch (err) {
                 toaster.error({
                     title: 'Error',

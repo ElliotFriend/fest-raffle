@@ -5,7 +5,7 @@ import { user } from '$lib/state/UserState.svelte';
 import { rpc } from '$lib/passkeyClient';
 import { PUBLIC_RAFFLE_CONTRACT } from '$env/static/public';
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ depends }) => {
     console.log('/enter/+page.ts running');
 
     // create the ledger key
@@ -24,6 +24,8 @@ export const load: PageLoad = async () => {
     const { entries } = await rpc.getLedgerEntries(ledgerKey);
 
     // return whether or not the ledger entry exists
+    depends('app:enter')
+
     return {
         hasEntered: !!entries.length,
     };

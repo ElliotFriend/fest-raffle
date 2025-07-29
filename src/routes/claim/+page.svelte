@@ -49,7 +49,7 @@
                     description: `Congratulations! Enjoy your cute monster, Labubu #${prizeLabubu}!`,
                 });
 
-                invalidate('/claim');
+                invalidate('app:claim');
             } catch (err) {
                 toaster.error({
                     title: 'Error',
