@@ -128,7 +128,7 @@
         if (user.contractAddress && user.keyId) {
             try {
                 isTransacting = true;
-                console.log('setting claim window');
+                console.log('upgrading contract');
 
                 let at = await fest_raffle.set_claim_time({
                     claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),

@@ -5,7 +5,6 @@ import { PUBLIC_RAFFLE_CONTRACT } from '$env/static/public';
 import { rpc } from '$lib/passkeyClient';
 
 export const load: PageLoad = async ({ depends }) => {
-    // console.log('user', user.contractAddress)
     const contractScAddress = new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress();
 
     let returnObj: Record<string, any> = {};

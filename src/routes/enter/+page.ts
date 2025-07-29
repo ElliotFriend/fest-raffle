@@ -6,8 +6,6 @@ import { rpc } from '$lib/passkeyClient';
 import { PUBLIC_RAFFLE_CONTRACT } from '$env/static/public';
 
 export const load: PageLoad = async ({ depends }) => {
-    console.log('/enter/+page.ts running');
-
     // create the ledger key
     const ledgerKey = xdr.LedgerKey.contractData(
         new xdr.LedgerKeyContractData({

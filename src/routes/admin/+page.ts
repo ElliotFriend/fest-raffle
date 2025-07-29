@@ -49,9 +49,7 @@ export const load: PageLoad = async ({ depends }) => {
         let { entries } = await rpc.getLedgerEntries(...winnerKeys);
         entries.forEach((e) => {
             const key = scValToNative(e.val.contractData().key())[1];
-            // console.log('key', key)
             const val = scValToNative(e.val.contractData().val());
-            // console.log(`${key}: ${val}`)
             returnObj.winners[key] = { address: val };
         });
     }
@@ -73,7 +71,6 @@ export const load: PageLoad = async ({ depends }) => {
         });
 
         let { entries } = await rpc.getLedgerEntries(...entryKeys);
-        console.log('entries', entries);
         entries.forEach((e) => {
             const address = scValToNative(e.val.contractData().key())[1];
             let labubu = getLabubuByAddress(returnObj.winners, address);
