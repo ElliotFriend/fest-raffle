@@ -5,41 +5,24 @@ import { PUBLIC_RAFFLE_CONTRACT } from '$env/static/public';
 import { rpc } from '$lib/passkeyClient';
 
 export const load: PageLoad = async ({ depends }) => {
-    const contractScAddress = new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress();
+    const ledgerKey = xdr.LedgerKey.contractData(
+        new xdr.LedgerKeyContractData({
+            contract: new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress(),
+            key: nativeToScVal([
+                nativeToScVal('Claimed', { type: 'symbol' }),
+                nativeToScVal(user.contractAddress, { type: 'address' }),
+            ]),
+            durability: xdr.ContractDataDurability.persistent(),
+        }),
+    );
 
-    let returnObj: Record<string, any> = {};
+    const { entries } = await rpc.getLedgerEntries(ledgerKey);
 
-    const ledgerKeys: xdr.LedgerKey[] = [
-        xdr.LedgerKey.contractData(
-            new xdr.LedgerKeyContractData({
-                contract: contractScAddress,
-                key: nativeToScVal([
-                    nativeToScVal('Entry', { type: 'symbol' }),
-                    nativeToScVal(user.contractAddress, { type: 'address' }),
-                ]),
-                durability: xdr.ContractDataDurability.persistent(),
-            }),
-        ),
-        xdr.LedgerKey.contractData(
-            new xdr.LedgerKeyContractData({
-                contract: contractScAddress,
-                key: nativeToScVal([
-                    nativeToScVal('Claimed', { type: 'symbol' }),
-                    nativeToScVal(user.contractAddress, { type: 'address' }),
-                ]),
-                durability: xdr.ContractDataDurability.persistent(),
-            }),
-        ),
-    ];
+    depends('app:claim');
 
-    const { entries } = await rpc.getLedgerEntries(...ledgerKeys);
-    entries.forEach((e) => {
-        const key = scValToNative(e.val.contractData().key())[0];
-        const val = scValToNative(e.val.contractData().val());
-        returnObj[key === 'Entry' ? 'entry' : 'claimedAt'] = val;
-    });
-
-    depends('app:claim')
-
-    return returnObj;
+    if (entries.length) {
+        return {
+            claimedAt: scValToNative(entries[0].val.contractData().val()),
+        };
+    }
 };

@@ -7,12 +7,12 @@
     import ShieldPlus from '@lucide/svelte/icons/shield-plus';
     import { user } from '$lib/state/UserState.svelte';
     import fest_raffle from '$lib/contracts/fest_raffle';
-    import { Api } from '@stellar/stellar-sdk/minimal/rpc';
     import { account, send } from '$lib/passkeyClient';
     import type { AssembledTransaction } from '@stellar/stellar-sdk/minimal/contract';
     import Truncated from '$lib/components/ui/Truncated.svelte';
     import { invalidate } from '$app/navigation';
     import { onDestroy, onMount } from 'svelte';
+    import { checkSimulationError } from '$lib/utils';
 
     let { data }: PageProps = $props();
     let isTransacting = $state(false);
@@ -23,31 +23,17 @@
     let upgradeWasmHash: string = $state('');
     let interval: NodeJS.Timeout;
 
-    onMount(() => {
-        interval = setInterval(() => {
-            invalidate('app:admin');
-        }, 5000);
-    });
+    // onMount(() => {
+    //     if (data.instance.TotalWinners) {
+    //         interval = setInterval(() => {
+    //             invalidate('app:admin');
+    //         }, 5000);
+    //     }
+    // });
 
-    onDestroy(() => {
-        if (interval) clearInterval(interval);
-    });
-
-    function checkSimulationError(sim: Api.SimulateTransactionResponse) {
-        if (Api.isSimulationError(sim)) {
-            console.error(sim.error);
-            if (sim.error.includes('Error(Contract, #201')) {
-                throw 'Error #201: Not enough entrants. Please draw a lower number of winners.';
-            } else if (sim.error.includes('Error(Contract, #202')) {
-                throw 'Error #202: Winners have already been drawn. Cannot draw again.';
-            } else if (sim.error.includes('Error(Contract, #203')) {
-                throw 'Error #203: Winners have not been drawn. Winner mapping failed.';
-            } else if (sim.error.includes('Error(Contract, #204')) {
-                throw 'Error #204: Invalid claim window. Please select inputs and try again.';
-            }
-            throw 'Something went wrong. Please try again later.';
-        }
-    }
+    // onDestroy(() => {
+    //     if (interval) clearInterval(interval);
+    // });
 
     async function drawAndMapWinners() {
         if (user.contractAddress && user.keyId) {
@@ -82,7 +68,7 @@
                     description: 'You have successfully drawn the winners. Great job!',
                 });
 
-                invalidate((url) => url.href.includes('/admin'));
+                invalidate('app:admin');
             } catch (err) {
                 toaster.error({
                     title: 'Error',
@@ -216,7 +202,7 @@
         {:else}
             <ClockFading size={18} />
         {/if}
-        <span>Set Times</span>
+        <span>Set Claim Window</span>
     </button>
 {/if}
 

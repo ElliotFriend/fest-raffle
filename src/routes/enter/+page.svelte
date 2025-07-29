@@ -3,15 +3,19 @@
     import { toaster } from '$lib/toaster';
     import raffleClient from '$lib/contracts/fest_raffle';
     import { xdr } from '@stellar/stellar-sdk/minimal';
-    import type { PageProps } from './$types';
-    let { data }: PageProps = $props();
     import { user } from '$lib/state/UserState.svelte';
-    import { Api } from '@stellar/stellar-sdk/minimal/rpc';
     import Ticket from '@lucide/svelte/icons/ticket';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
     import { invalidate } from '$app/navigation';
+    import { checkSimulationError } from '$lib/utils';
+
+    import type { PageProps } from './$types';
+    let { data }: PageProps = $props();
 
     let isEntering = $state(false);
+    let isButtonDisabled = $derived(
+        isEntering || !user.contractAddress || data.instance.WinnersChosen,
+    );
 
     async function enterRaffle() {
         if (user.contractAddress && user.keyId) {
@@ -22,18 +26,7 @@
                 let at = await raffleClient.enter_raffle({
                     entrant: user.contractAddress,
                 });
-
-                if (Api.isSimulationError(at.simulation!)) {
-                    console.error(at.simulation.error);
-                    if (at.simulation.error.includes('Error(Contract, #101')) {
-                        throw 'You have already entered the raffle. No double-dips.';
-                    } else if (at.simulation.error.includes('Error(Contract, #107')) {
-                        throw 'Winners have already been drawn. Entries are closed.';
-                    } else if (at.simulation.error.includes('Error(Contract, #108')) {
-                        throw 'Admin cannot enter the raffle. Very sneaky, Lindsay!';
-                    }
-                    throw 'Something went wrong entering the raffle. Please try again later.';
-                }
+                checkSimulationError(at.simulation!);
 
                 await account.sign(at, { keyId: user.keyId });
                 let { returnValue } = await send(at.built!);
@@ -62,13 +55,13 @@
 </script>
 
 {#if !data.hasEntered}
-    <h1 class="h1">JUST ONE MORE TAP AND YOU'RE IN</h1>
+    <h1 class="h1">JUST ONE MORE TAP AND YOU'RE GOLDEN</h1>
     <p>Press the button to enter the raffle.</p>
     <div>
         <button
-            class="btn btn-lg preset-filled"
+            class="btn btn-lg preset-filled w-full"
             onclick={enterRaffle}
-            disabled={!user.contractAddress || isEntering}
+            disabled={isButtonDisabled}
         >
             {#if isEntering}
                 <LoaderPinwheel size={24} class="animate-spin" />

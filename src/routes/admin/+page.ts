@@ -7,32 +7,13 @@ function getLabubuByAddress(obj: Record<number, Record<string, string | Date>>, 
     return Number(Object.keys(obj).find((key) => obj[Number(key)].address === address));
 }
 
-export const load: PageLoad = async ({ depends }) => {
-    let returnObj: {
-        instance: Record<string, any>;
-        winners: Record<number, Record<string, string | Date>>;
-    } = {
-        instance: {},
-        winners: {},
-    };
+export const load: PageLoad = async ({ parent, depends }) => {
+    let winners: Record<number, Record<string, string | Date>> = {};
 
-    const raffleContract = new Contract(PUBLIC_RAFFLE_CONTRACT);
-    let { entries } = await rpc.getLedgerEntries(raffleContract.getFootprint());
-
-    entries[0].val
-        .contractData()
-        .val()
-        .instance()
-        .storage()!
-        .forEach((iEntry) => {
-            const key = scValToNative(iEntry.key())[0].toString();
-            const val = scValToNative(iEntry.val());
-            returnObj.instance[key] = val;
-        });
-
-    if (returnObj.instance.TotalWinners) {
+    const { instance } = await parent();
+    if (instance.TotalWinners) {
         let winnerKeys: xdr.LedgerKey[] = [];
-        for (let i = 1; i <= returnObj.instance.TotalWinners; i++) {
+        for (let i = 1; i <= instance.TotalWinners; i++) {
             const key = xdr.LedgerKey.contractData(
                 new xdr.LedgerKeyContractData({
                     contract: new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress(),
@@ -50,13 +31,13 @@ export const load: PageLoad = async ({ depends }) => {
         entries.forEach((e) => {
             const key = scValToNative(e.val.contractData().key())[1];
             const val = scValToNative(e.val.contractData().val());
-            returnObj.winners[key] = { address: val };
+            winners[key] = { address: val };
         });
     }
 
-    if (Object.keys(returnObj.winners).length) {
+    if (Object.keys(winners).length) {
         let entryKeys: xdr.LedgerKey[] = [];
-        Object.entries(returnObj.winners).forEach(([labubu, { address }]) => {
+        Object.entries(winners).forEach(([labubu, { address }]) => {
             const claimKey = xdr.LedgerKey.contractData(
                 new xdr.LedgerKeyContractData({
                     contract: new Address(PUBLIC_RAFFLE_CONTRACT).toScAddress(),
@@ -73,10 +54,10 @@ export const load: PageLoad = async ({ depends }) => {
         let { entries } = await rpc.getLedgerEntries(...entryKeys);
         entries.forEach((e) => {
             const address = scValToNative(e.val.contractData().key())[1];
-            let labubu = getLabubuByAddress(returnObj.winners, address);
+            let labubu = getLabubuByAddress(winners, address);
             const val = Number(scValToNative(e.val.contractData().val())) * 1000;
-            returnObj.winners[labubu] = {
-                ...returnObj.winners[labubu],
+            winners[labubu] = {
+                ...winners[labubu],
                 claimed: new Date(val).toLocaleTimeString(),
             };
         });
@@ -84,5 +65,7 @@ export const load: PageLoad = async ({ depends }) => {
 
     depends('app:admin');
 
-    return returnObj;
+    return {
+        winners,
+    };
 };

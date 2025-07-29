@@ -6,15 +6,10 @@
     import Wallet from '@lucide/svelte/icons/wallet';
     import Fingerprint from '@lucide/svelte/icons/fingerprint';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
-    import { goto } from '$app/navigation';
 
     let isSigningUp = $state(false);
     let isSigningIn = $state(false);
     let isLoading = $derived(isSigningUp || isSigningIn || !!user.contractAddress);
-
-    // if (user.contractAddress && user.keyId) {
-    //     goto('/enter')
-    // }
 
     /**
      * Sign up as a new user, creating a smart wallet along the way.
@@ -91,7 +86,7 @@
 {/if}
 
 <div>
-    <button class="btn preset-filled btn-lg" onclick={signup} disabled={isLoading}>
+    <button class="btn preset-filled btn-lg w-full" onclick={signup} disabled={isLoading}>
         {#if isSigningUp}
             <LoaderPinwheel size={24} class="animate-spin" />
         {:else}
