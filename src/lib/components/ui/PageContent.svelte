@@ -1,5 +1,7 @@
 <script lang="ts">
     let { children } = $props();
+    import { fade } from 'svelte/transition';
+    import { page } from '$app/state';
 </script>
 
 <div class="flex-auto w-full h-full flex overflow-hidden p-4 text-center">

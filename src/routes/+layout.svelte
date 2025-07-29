@@ -12,10 +12,16 @@
 
 <Toaster {toaster}></Toaster>
 
-<div class="w-full h-screen flex flex-col overflow-hidden">
-    <Header />
-    <PageContent>
-        {@render children()}
-    </PageContent>
-    <Footer />
+<div class="p-safe flex flex-col items-center justify-center h-dvh">
+    <div
+        class="relative w-full flex flex-col overflow-hidden bg-[url('/assets/bg1.png')] bg-center bg-cover bg-no-repeat h-dvh max-h-[1334px] max-w-[750px]"
+    >
+        <!-- <div class="relative w-full flex flex-col items-center justify-center h-dvh px-2 select-none overflow-hidden bg-violet-800 max-h-[800px] max-w-[500px] py-2 null"> -->
+        <!-- <div class="relative w-full flex flex-col items-center justify-center h-dvh min-h-[663px] max-h-[800px] px-2 overflow-hidden bg-[url('/bgs/bg1.png')] bg-[length:1000px] bg-[center_-29rem] bg-no-repeat max-w-[500px]"> -->
+        <Header />
+        <PageContent>
+            {@render children()}
+        </PageContent>
+        <Footer />
+    </div>
 </div>

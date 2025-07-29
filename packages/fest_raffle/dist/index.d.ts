@@ -6,12 +6,6 @@ import {
     MethodOptions,
 } from '@stellar/stellar-sdk/minimal/contract';
 import type { u32, u64, Option } from '@stellar/stellar-sdk/minimal/contract';
-export declare const networks: {
-    readonly testnet: {
-        readonly networkPassphrase: 'Test SDF Network ; September 2015';
-        readonly contractId: 'CD7K5DKW4E43MZTO3GJTYR7HKQUP7JJMRBKI6OAQUYU3WDVYDYX5OEV2';
-    };
-};
 export declare const Errors: {
     /**
      * Indicates the address is already entered (tested)
@@ -80,6 +74,12 @@ export declare const Errors: {
         message: string;
     };
     /**
+     * Indicates the prize cannot be claimed, since we are outside the claim window
+     */
+    113: {
+        message: string;
+    };
+    /**
      * Indicates there are not enough entrants, and everybody wins (tested)
      */
     201: {
@@ -97,6 +97,12 @@ export declare const Errors: {
     203: {
         message: string;
     };
+    /**
+     * Indicates that either claim before or until values are invalid
+     */
+    204: {
+        message: string;
+    };
 };
 export interface EntryData {
     address: string;
@@ -106,8 +112,8 @@ export interface EntryData {
     timestamp: u64;
 }
 export interface ClaimTime {
-    end: u64;
-    start: u64;
+    after: u64;
+    until: u64;
 }
 export type Storage =
     | {
@@ -149,6 +155,10 @@ export type Storage =
     | {
           tag: 'Winners';
           values: void;
+      }
+    | {
+          tag: 'ClaimWindow';
+          values: void;
       };
 export interface Client {
     /**
@@ -176,13 +186,43 @@ export interface Client {
         },
     ) => Promise<AssembledTransaction<null>>;
     /**
+     * Construct and simulate a set_claim_time transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+     */
+    set_claim_time: (
+        {
+            claim_after,
+            claim_until,
+        }: {
+            claim_after: u64;
+            claim_until: u64;
+        },
+        options?: {
+            /**
+             * The fee to pay for the transaction. Default: BASE_FEE
+             */
+            fee?: number;
+            /**
+             * The maximum amount of time to wait for the transaction to complete. Default: DEFAULT_TIMEOUT
+             */
+            timeoutInSeconds?: number;
+            /**
+             * Whether to automatically simulate the transaction when constructing the AssembledTransaction. Default: true
+             */
+            simulate?: boolean;
+        },
+    ) => Promise<AssembledTransaction<null>>;
+    /**
      * Construct and simulate a draw_winners transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
      */
     draw_winners: (
         {
             number_of_winners,
+            claim_after,
+            claim_until,
         }: {
             number_of_winners: Option<u32>;
+            claim_after: Option<u64>;
+            claim_until: Option<u64>;
         },
         options?: {
             /**
@@ -288,6 +328,7 @@ export declare class Client extends ContractClient {
     constructor(options: ContractClientOptions);
     readonly fromJSON: {
         set_admin: (json: string) => AssembledTransaction<null>;
+        set_claim_time: (json: string) => AssembledTransaction<null>;
         draw_winners: (json: string) => AssembledTransaction<null>;
         map_winners: (json: string) => AssembledTransaction<null>;
         enter_raffle: (json: string) => AssembledTransaction<number>;

@@ -20,7 +20,7 @@ fn test_happy_path() {
     }
 
     // use the default, 25 winners
-    client.draw_winners(&Some(25));
+    client.draw_winners(&Some(25), &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     client.map_winners();
 
     env.as_contract(&contract_id, || {
@@ -104,7 +104,7 @@ fn test_cannot_draw_with_insufficient_entrants() {
     }
 
     // use the default, 25 winners
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 1000));
 }
 
 #[test]
@@ -126,7 +126,7 @@ fn test_cannot_draw_again() {
     }
 
     // draw winners once
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     // draw winners again. this is where we should panic
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
 }

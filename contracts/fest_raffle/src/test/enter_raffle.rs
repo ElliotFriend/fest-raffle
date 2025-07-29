@@ -124,7 +124,7 @@ fn test_cannot_enter_late() {
     }
 
     // draw winners
-    client.draw_winners(&None);
+    client.draw_winners(&None, &None, &None);
     // enter raffle. this is where we panic
     let new_entrant = Address::generate(&env);
     client.enter_raffle(&new_entrant);

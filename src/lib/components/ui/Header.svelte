@@ -7,6 +7,7 @@
     import { user } from '$lib/state/UserState.svelte';
     import { onMount } from 'svelte';
     import { account } from '$lib/passkeyClient';
+    import RefreshCw from '@lucide/svelte/icons/refresh-cw';
 
     onMount(async () => {
         if (user.keyId) {
@@ -38,16 +39,17 @@
     }
 </script>
 
-<header class="bg-surface-200-800">
+<header>
     <div class="flex flex-row justify-between p-3">
         {#if user.contractAddress}
             <div>
                 <Truncated text={user.contractAddress} startChars={5} endChars={5} />
             </div>
             <div>
-                <button type="button" class="btn btn-sm preset-filled" onclick={startOver}
-                    >Start Over</button
-                >
+                <button type="button" class="btn btn-sm preset-filled" onclick={startOver}>
+                    <RefreshCw size={12} />
+                    <span>Start Over</span>
+                </button>
             </div>
         {:else}
             <div></div>

@@ -17,7 +17,7 @@ fn test_happy_path() {
         client.enter_raffle(&entrant);
     }
 
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 100000));
     client.map_winners();
 
     for i in 1..=25 {
@@ -76,7 +76,7 @@ fn test_happy_path_with_one_winner() {
         client.enter_raffle(&entrant);
     }
 
-    client.draw_winners(&Some(1));
+    client.draw_winners(&Some(1), &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     client.map_winners();
 
     // give some distance in time from when the winners were chosen
@@ -133,7 +133,7 @@ fn test_cannot_claim_if_never_entered() {
         client.enter_raffle(&entrant);
     }
 
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     client.map_winners();
 
     let temp_timestamp = env.ledger().timestamp();
@@ -163,7 +163,7 @@ fn test_cannot_claim_again() {
         client.enter_raffle(&entrant);
     }
 
-    client.draw_winners(&Some(1));
+    client.draw_winners(&Some(1), &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     client.map_winners();
 
     // give some distance in time from when the winners were chosen
@@ -216,7 +216,7 @@ fn test_admin_cannot_claim() {
         client.enter_raffle(&entrant);
     }
 
-    client.draw_winners(&None);
+    client.draw_winners(&None, &Some(env.ledger().timestamp()), &Some(env.ledger().timestamp() + 10000));
     client.map_winners();
 
     let temp_timestamp = env.ledger().timestamp();

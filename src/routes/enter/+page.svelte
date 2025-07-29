@@ -9,6 +9,7 @@
     import { Api } from '@stellar/stellar-sdk/minimal/rpc';
     import Ticket from '@lucide/svelte/icons/ticket';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
+    import { invalidate } from '$app/navigation';
 
     let isEntering = $state(false);
 
@@ -41,6 +42,8 @@
                     title: 'Success!',
                     description: `You successfully entered the raffle. You're number ${entrantIndex + 1} to do so! Great work!`,
                 });
+
+                invalidate('/enter');
             } catch (err) {
                 toaster.error({
                     title: 'Error',
@@ -59,24 +62,24 @@
 </script>
 
 {#if !data.hasEntered}
-    <h1 class="h1">You're just a tap away from being a winner.</h1>
+    <h1 class="h1">JUST ONE MORE TAP AND YOU'RE IN</h1>
     <p>Press the button to enter the raffle.</p>
     <div>
         <button
-            class="btn preset-filled"
+            class="btn btn-lg preset-filled"
             onclick={enterRaffle}
             disabled={!user.contractAddress || isEntering}
         >
             {#if isEntering}
-                <LoaderPinwheel size={18} class="animate-spin" />
+                <LoaderPinwheel size={24} class="animate-spin" />
             {:else}
-                <Ticket size={18} />
+                <Ticket size={24} />
             {/if}
             <span>Enter</span>
         </button>
     </div>
 {:else}
-    <h1 class="h1">Thanks for entering!</h1>
+    <h1 class="h1">THANKS FOR ENTERING</h1>
     <p>Now, we wait. Keep this tab open.</p>
-    <p>Drawing at 1:00pm</p>
+    <p>Drawing at 1:00PM</p>
 {/if}

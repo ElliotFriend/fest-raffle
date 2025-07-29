@@ -11,8 +11,8 @@ pub struct EntryData {
 
 #[contracttype]
 pub struct ClaimTime {
-    pub start: u64,
-    pub end: u64,
+    pub after: u64,
+    pub until: u64,
 }
 
 #[contracttype]
@@ -28,6 +28,7 @@ pub enum Storage {
     Winner(u32),    // : address
     Claimed(Address), // : u64 timestamp
     Winners, // : vec<u32>
+    ClaimWindow, // : ClaimTime
                     // WinnerIndex(u32), // : address
                     // Winner(Address), // : index
                     // Entry(Address), // : u64 timestamp

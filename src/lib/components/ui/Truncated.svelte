@@ -8,4 +8,4 @@
     let shortenedText = `${text.slice(0, startChars)}...${text.slice(endChars * -1)}`;
 </script>
 
-<p class="font-mono">{shortenedText}</p>
+<span class="font-mono">{shortenedText}</span>

@@ -31,41 +31,39 @@
 
 {#snippet iconLabel(label: string)}
     {#if label === 'next'}
-        <span>{label}</span>
-        <ArrowRight size={18} />
+        <ArrowRight size={24} />
     {:else}
-        <ArrowLeft size={18} />
-        <span>{label}</span>
+        <ArrowLeft size={24} />
     {/if}
 {/snippet}
 
 {#snippet navButton(url: string | null, label: string)}
     {#if url !== null}
-        <a href={url} type="button" class="btn preset-filled">
+        <a href={url} type="button" class="btn-icon btn-icon-lg rounded-full preset-filled">
             {@render iconLabel(label)}
         </a>
     {:else}
-        <button type="button" class="btn preset-filled" disabled>
+        <button
+            type="button"
+            class="btn-icon btn-icon-lg rounded-full preset-filled scale"
+            disabled
+        >
             {@render iconLabel(label)}
         </button>
     {/if}
 {/snippet}
 
-{#if currentPage === '/admin'}
-    <footer class="p-2 bg-surface-200-800">
-        <div class="flex items-center justify-center space-x-4">
+<footer class="p-2">
+    <div class="flex items-center justify-center space-x-4">
+        {#if currentPage === '/admin'}
             <a
-                class="anchor"
+                class="btn preset-outlined"
                 href={`https://stellar.expert/explorer/${PUBLIC_STELLAR_NETWORK}/contract/${PUBLIC_RAFFLE_CONTRACT}`}
                 target="_blank">View Contract</a
             >
-        </div>
-    </footer>
-{:else}
-    <footer class="p-2 bg-surface-200-800">
-        <div class="flex items-center justify-center space-x-4">
+        {:else}
             {@render navButton(prevPage, 'previous')}
             {@render navButton(nextPage, 'next')}
-        </div>
-    </footer>
-{/if}
+        {/if}
+    </div>
+</footer>

@@ -26,10 +26,14 @@ pub enum Errors {
     NoPrizeExists = 111,
     /// Indicates a prize index was not found for the entrant
     PrizeNotFount = 112,
+    /// Indicates the prize cannot be claimed, since we are outside the claim window
+    OutsideClaimWindow = 113,
     /// Indicates there are not enough entrants, and everybody wins (tested)
     NotEnoughEntrants = 201,
     /// Indicates the winners have already been drawn, we cannot draw again (tested)
     WinnersAlreadyChosen = 202,
     /// Indicates the winners haven't been drawn, so we can't map the addresses
     WinnersNotDrawnYet = 203,
+    /// Indicates that either claim before or until values are invalid
+    InvalidClaimTimes = 204,
 }

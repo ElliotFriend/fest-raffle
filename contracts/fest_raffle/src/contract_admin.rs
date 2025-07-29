@@ -1,9 +1,9 @@
-use soroban_sdk::{contractimpl, panic_with_error, vec, Address, Env, Vec};
+use soroban_sdk::{contractimpl, panic_with_error, vec, Address, BytesN, Env, Vec};
 
 use crate::{
     errors::Errors, storage::{
-        extend_instance_ttl, get_admin, get_entrant_from_index, get_total_entries, get_total_winners, get_winners, has_winners_chosen, set_admin, set_total_winners, set_winner, set_winners, set_winners_chosen
-    }, AdminTrait, RaffleContract, RaffleContractArgs, RaffleContractClient
+        extend_instance_ttl, get_entrant_from_index, get_total_entries, get_total_winners, get_winners, has_winners_chosen, require_admin_auth, set_admin, set_claim_times, set_total_winners, set_winner, set_winners, set_winners_chosen
+    }, types::ClaimTime, AdminTrait, RaffleContract, RaffleContractArgs, RaffleContractClient
 };
 
 /// An administrative interface for the raffle contract
@@ -17,19 +17,32 @@ impl AdminTrait for RaffleContract {
         extend_instance_ttl(&env);
     }
 
+    fn upgrade(env: Env, wasm_hash: BytesN<32>) {
+        // require authorization from the existing admin address.
+        require_admin_auth(&env);
+
+        env.deployer().update_current_contract_wasm(wasm_hash);
+    }
+
     fn set_admin(env: Env, new_admin: Address) {
         // require authorization from the existing admin address.
-        let admin = get_admin(&env);
-        admin.require_auth();
+        require_admin_auth(&env);
 
         // set the new admin address.
         set_admin(&env, &new_admin);
     }
 
-    fn draw_winners(env: Env, number_of_winners: Option<u32>) {
+    fn set_claim_time(env: Env, claim_after: u64, claim_until: u64) {
+        // require authorization from the existing admin address.
+        require_admin_auth(&env);
+
+        // set the new admin address.
+        set_claim_times(&env, &ClaimTime { after: claim_after, until: claim_until });
+    }
+
+    fn draw_winners(env: Env, number_of_winners: Option<u32>, claim_after: Option<u64>, claim_until: Option<u64>) {
         // require authorization from the admin address.
-        let admin = get_admin(&env);
-        admin.require_auth();
+        require_admin_auth(&env);
 
         // make sure we haven't already chosen winners
         if has_winners_chosen(&env) {
@@ -50,6 +63,19 @@ impl AdminTrait for RaffleContract {
             panic_with_error!(&env, Errors::NotEnoughEntrants);
         }
 
+        let claim_times = ClaimTime {
+            after: claim_after.unwrap_or(1754172000),
+            until: claim_until.unwrap_or(1754175600),
+        };
+
+        // make sure claim times make sense:
+        // 1) after is before until, and
+        // 2) until is in the future
+        if claim_times.after >= claim_times.until || claim_times.until <= env.ledger().timestamp() {
+            panic_with_error!(&env, Errors::InvalidClaimTimes)
+        }
+
+        set_claim_times(&env, &claim_times);
         set_total_winners(&env, &num_winners);
 
         // create a vector to keep track of winning indexes
@@ -67,6 +93,7 @@ impl AdminTrait for RaffleContract {
             }
         }
 
+        // shuffle and store the list of winning indexes
         env.prng().shuffle(&mut winning_indexes);
         set_winners(&env, winning_indexes);
 

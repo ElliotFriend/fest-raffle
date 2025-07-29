@@ -2,7 +2,7 @@ use soroban_sdk::{panic_with_error, Address, Env, Vec};
 
 use crate::{
     errors::Errors,
-    types::{EntryData, Storage},
+    types::{ClaimTime, EntryData, Storage},
     WEEK_OF_LEDGERS,
 };
 
@@ -20,6 +20,10 @@ pub fn set_admin(env: &Env, owner: &Address) {
 
 pub fn get_admin(env: &Env) -> Address {
     env.storage().instance().get(&Storage::Admin).unwrap()
+}
+
+pub fn require_admin_auth(env: &Env) {
+    get_admin(env).require_auth();
 }
 
 pub fn get_total_entries(env: &Env) -> u32 {
@@ -162,4 +166,12 @@ pub fn increment_total_claimed(env: &Env) {
     env.storage()
         .instance()
         .set(&Storage::TotalClaimed, &(current + 1));
+}
+
+pub fn set_claim_times(env: &Env, claim_times: &ClaimTime) {
+    env.storage().instance().set(&Storage::ClaimWindow, claim_times);
+}
+
+pub fn get_claim_times(env: &Env) -> ClaimTime {
+    env.storage().instance().get(&Storage::ClaimWindow).unwrap()
 }

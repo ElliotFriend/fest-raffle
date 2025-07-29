@@ -3,7 +3,7 @@ use soroban_sdk::{contractimpl, panic_with_error, Address, Env};
 use crate::{
     errors::Errors,
     storage::{
-        create_entry, extend_instance_ttl, get_admin, get_entry, has_claimed, has_entry, has_winners_chosen, is_winner, set_claimed, winners_chosen_in_past
+        create_entry, extend_instance_ttl, get_admin, get_claim_times, get_entry, has_claimed, has_entry, has_winners_chosen, is_winner, set_claimed, winners_chosen_in_past
     },
     EntrantTrait, RaffleContract, RaffleContractArgs, RaffleContractClient,
 };
@@ -45,6 +45,12 @@ impl EntrantTrait for RaffleContract {
         // make sure we've already chosen the winners
         if !winners_chosen_in_past(&env) {
             panic_with_error!(&env, Errors::WinnersNotChosen);
+        }
+
+        // check that we're inside the claim window
+        let claim_times = get_claim_times(&env);
+        if claim_times.after > env.ledger().timestamp() || claim_times.until < env.ledger().timestamp() {
+            panic_with_error!(&env, Errors::OutsideClaimWindow);
         }
 
         // make sure the admin isn't doing something sneaky lol

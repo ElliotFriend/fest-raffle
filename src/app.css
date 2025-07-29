@@ -2,12 +2,25 @@
 
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/terminus';
+@import '@skeletonlabs/skeleton/themes/cerberus';
 
 @source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+@import '@fontsource/lora';
+
+@font-face {
+    font-family: 'Schabo';
+    src:
+        url('/fonts/SCHABO.woff2') format('woff2'),
+        url('/fonts/SCHABO.woff') format('woff'),
+        url('/fonts/SCHABO.ttf') format('truetype'),
+        url('/fonts/SCHABO.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -29,12 +42,18 @@
     }
 }
 
-@layer utilities {
+/* cerberus theme */
+[data-theme='cerberus'] {
+    --heading-font-family: 'Schabo', sans-serif;
+    --base-font-family: Lora, serif;
+    /* --anchor-font-family: 'inherit'; */
 }
 
-/* rocket theme */
-@font-face {
-    font-family: 'Space Grotesk';
-    src: url('/fonts/SpaceGrotesk.ttf');
-    font-display: swap;
+[data-theme='cerberus'] .h1 {
+    font-size: var(--text-7xl);
+    --heading-font-weight: 'normal';
+}
+
+[data-theme='cerberus'] p {
+    font-size: var(--text-3xl);
 }

@@ -1,5 +1,5 @@
 #![no_std]
-use soroban_sdk::{contract, contractmeta, Address, Env};
+use soroban_sdk::{contract, contractmeta, Address, BytesN, Env};
 
 contractmeta!(key = "title", val = "FWB Fest Raffle");
 contractmeta!(
@@ -23,11 +23,15 @@ pub struct RaffleContract;
 pub trait AdminTrait {
     fn __constructor(env: Env, admin: Address);
 
+    fn upgrade(env: Env, new_wasm_hash: BytesN<32>);
+
     fn set_admin(env: Env, new_admin: Address);
 
-    fn draw_winners(env: Env, number_of_winners: Option<u32>);
+    fn draw_winners(env: Env, number_of_winners: Option<u32>, claim_after: Option<u64>, claim_until: Option<u64>);
 
     fn map_winners(env: Env);
+
+    fn set_claim_time(env: Env, claim_after: u64, claim_until: u64);
 }
 
 pub trait EntrantTrait {

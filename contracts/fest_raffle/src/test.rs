@@ -12,3 +12,4 @@ mod claim_prize;
 mod constructor;
 mod draw_winners;
 mod enter_raffle;
+mod map_winners;

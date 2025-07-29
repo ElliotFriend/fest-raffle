@@ -964,6 +964,8 @@
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
               "function_name": "draw_winners",
               "args": [
+                "void",
+                "void",
                 "void"
               ]
             }
@@ -7615,6 +7617,35 @@
                         },
                         "val": {
                           "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM"
+                        }
+                      },
+                      {
+                        "key": {
+                          "vec": [
+                            {
+                              "symbol": "ClaimWindow"
+                            }
+                          ]
+                        },
+                        "val": {
+                          "map": [
+                            {
+                              "key": {
+                                "symbol": "after"
+                              },
+                              "val": {
+                                "u64": 1754172000
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "until"
+                              },
+                              "val": {
+                                "u64": 1754175600
+                              }
+                            }
+                          ]
                         }
                       },
                       {

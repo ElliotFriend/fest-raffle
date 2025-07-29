@@ -206,6 +206,12 @@
               "args": [
                 {
                   "u32": 1
+                },
+                {
+                  "u64": 10000
+                },
+                {
+                  "u64": 20000
                 }
               ]
             }
@@ -1738,6 +1744,35 @@
                         },
                         "val": {
                           "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM"
+                        }
+                      },
+                      {
+                        "key": {
+                          "vec": [
+                            {
+                              "symbol": "ClaimWindow"
+                            }
+                          ]
+                        },
+                        "val": {
+                          "map": [
+                            {
+                              "key": {
+                                "symbol": "after"
+                              },
+                              "val": {
+                                "u64": 10000
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "until"
+                              },
+                              "val": {
+                                "u64": 20000
+                              }
+                            }
+                          ]
                         }
                       },
                       {

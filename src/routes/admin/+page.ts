@@ -7,7 +7,7 @@ function getLabubuByAddress(obj: Record<number, Record<string, string | Date>>, 
     return Number(Object.keys(obj).find((key) => obj[Number(key)].address === address));
 }
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ depends }) => {
     let returnObj: {
         instance: Record<string, any>;
         winners: Record<number, Record<string, string | Date>>;
@@ -29,8 +29,6 @@ export const load: PageLoad = async () => {
             const val = scValToNative(iEntry.val());
             returnObj.instance[key] = val;
         });
-
-    // console.log(returnObj)
 
     if (returnObj.instance.TotalWinners) {
         let winnerKeys: xdr.LedgerKey[] = [];
@@ -86,6 +84,8 @@ export const load: PageLoad = async () => {
             };
         });
     }
+
+    depends('app:admin');
 
     return returnObj;
 };

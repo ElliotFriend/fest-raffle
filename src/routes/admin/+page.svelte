@@ -2,19 +2,36 @@
     import type { PageProps } from './$types';
     import { toaster } from '$lib/toaster';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
+    import ClockFading from '@lucide/svelte/icons/clock-fading';
     import Trophy from '@lucide/svelte/icons/trophy';
+    import ShieldPlus from '@lucide/svelte/icons/shield-plus';
     import { user } from '$lib/state/UserState.svelte';
     import fest_raffle from '$lib/contracts/fest_raffle';
     import { Api } from '@stellar/stellar-sdk/minimal/rpc';
     import { account, send } from '$lib/passkeyClient';
     import type { AssembledTransaction } from '@stellar/stellar-sdk/minimal/contract';
     import Truncated from '$lib/components/ui/Truncated.svelte';
+    import { invalidate } from '$app/navigation';
+    import { onDestroy, onMount } from 'svelte';
 
     let { data }: PageProps = $props();
-    $inspect(data);
-    let isDrawingWinners = $state(false);
+    let isTransacting = $state(false);
     let numberOfWinners = $state(3);
     let buttonText = $derived(data.instance.TotalWinners ? 'Map Winners' : 'Draw Winners');
+    let claimableAfter: string = $state('2025-07-28T13:00');
+    let claimableUntil: string = $state('2025-08-01T22:00');
+    let upgradeWasmHash: string = $state('');
+    let interval: NodeJS.Timeout;
+
+    onMount(() => {
+        interval = setInterval(() => {
+            invalidate('app:admin');
+        }, 5000);
+    });
+
+    onDestroy(() => {
+        if (interval) clearInterval(interval);
+    });
 
     function checkSimulationError(sim: Api.SimulateTransactionResponse) {
         if (Api.isSimulationError(sim)) {
@@ -22,18 +39,20 @@
             if (sim.error.includes('Error(Contract, #201')) {
                 throw 'Error #201: Not enough entrants. Please draw a lower number of winners.';
             } else if (sim.error.includes('Error(Contract, #202')) {
-                throw 'Winners have already been drawn. Cannot draw again.';
+                throw 'Error #202: Winners have already been drawn. Cannot draw again.';
             } else if (sim.error.includes('Error(Contract, #203')) {
-                throw 'Winners have not been drawn. Winner mapping failed.';
+                throw 'Error #203: Winners have not been drawn. Winner mapping failed.';
+            } else if (sim.error.includes('Error(Contract, #204')) {
+                throw 'Error #204: Invalid claim window. Please select inputs and try again.';
             }
-            throw 'Something went wrong drawing winners. Please try again later.';
+            throw 'Something went wrong. Please try again later.';
         }
     }
 
     async function drawAndMapWinners() {
         if (user.contractAddress && user.keyId) {
             try {
-                isDrawingWinners = true;
+                isTransacting = true;
 
                 let at: AssembledTransaction<null>;
 
@@ -42,6 +61,8 @@
 
                     at = await fest_raffle.draw_winners({
                         number_of_winners: numberOfWinners,
+                        claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),
+                        claim_until: BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000)),
                     });
                     checkSimulationError(at.simulation!);
 
@@ -60,22 +81,84 @@
                     title: 'Success!',
                     description: 'You have successfully drawn the winners. Great job!',
                 });
+
+                invalidate((url) => url.href.includes('/admin'));
             } catch (err) {
                 toaster.error({
                     title: 'Error',
                     description: err,
                 });
             } finally {
-                isDrawingWinners = false;
+                isTransacting = false;
+            }
+        }
+    }
+
+    async function setClaimWindow() {
+        if (user.contractAddress && user.keyId) {
+            try {
+                isTransacting = true;
+                console.log('setting claim window');
+
+                let at = await fest_raffle.set_claim_time({
+                    claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),
+                    claim_until: BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000)),
+                });
+                checkSimulationError(at.simulation!);
+
+                await account.sign(at, { keyId: user.keyId });
+                await send(at.built!);
+
+                toaster.success({
+                    title: 'Success!',
+                    description: 'You have successfully set the claim window. Great job!',
+                });
+            } catch (err) {
+                toaster.error({
+                    title: 'Error',
+                    description: err,
+                });
+            } finally {
+                isTransacting = false;
+            }
+        }
+    }
+
+    async function upgradeContract() {
+        if (user.contractAddress && user.keyId) {
+            try {
+                isTransacting = true;
+                console.log('setting claim window');
+
+                let at = await fest_raffle.set_claim_time({
+                    claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),
+                    claim_until: BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000)),
+                });
+                checkSimulationError(at.simulation!);
+
+                await account.sign(at, { keyId: user.keyId });
+                await send(at.built!);
+
+                toaster.success({
+                    title: 'Success!',
+                    description: 'You have successfully upgraded the smart contract. Great job!',
+                });
+            } catch (err) {
+                toaster.error({
+                    title: 'Error',
+                    description: err,
+                });
+            } finally {
+                isTransacting = false;
             }
         }
     }
 </script>
 
-<h1 class="h1">Admin Area</h1>
+<h1 class="h1">ADMIN ARENA</h1>
 <p>For Lindsay's Eys Only!</p>
 
-{#if !data.instance.TotalWinners || !Object.keys(data.winners).length}
+{#if !data.instance.WinnersChosen}
     <label class="label">
         <span class="label-text">Number of Winners</span>
         <input
@@ -85,8 +168,9 @@
             bind:value={numberOfWinners}
         />
     </label>
-    <button class="btn preset-filled" onclick={drawAndMapWinners} disabled={isDrawingWinners}>
-        {#if isDrawingWinners}
+    {@render claimTimeInputs()}
+    <button class="btn preset-filled" onclick={drawAndMapWinners} disabled={isTransacting}>
+        {#if isTransacting}
             <LoaderPinwheel size={18} class="animate-spin" />
         {:else}
             <Trophy size={18} />
@@ -123,4 +207,39 @@
             </tbody>
         </table>
     </div>
+
+    <h2 class="h2">Set Claim Window</h2>
+    {@render claimTimeInputs()}
+    <button class="btn preset-filled" disabled={isTransacting} onclick={setClaimWindow}>
+        {#if isTransacting}
+            <LoaderPinwheel size={18} class="animate-spin" />
+        {:else}
+            <ClockFading size={18} />
+        {/if}
+        <span>Set Times</span>
+    </button>
 {/if}
+
+<label class="label">
+    <span class="label-text">Upgrade Raffle Contract</span>
+    <input class="input" type="text" bind:value={upgradeWasmHash} />
+</label>
+<button class="btn preset-filled" disabled={isTransacting} onclick={upgradeContract}>
+    {#if isTransacting}
+        <LoaderPinwheel size={18} class="animate-spin" />
+    {:else}
+        <ShieldPlus size={18} />
+    {/if}
+    <span>Upgrade Contract</span>
+</button>
+
+{#snippet claimTimeInputs()}
+    <label class="label">
+        <span class="label-text">Claimable After</span>
+        <input class="input" type="datetime-local" bind:value={claimableAfter} />
+    </label>
+    <label class="label">
+        <span class="label-text">Claimable Until</span>
+        <input class="input" type="datetime-local" bind:value={claimableUntil} />
+    </label>
+{/snippet}
