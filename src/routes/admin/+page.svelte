@@ -23,17 +23,17 @@
     let upgradeWasmHash: string = $state('');
     let interval: NodeJS.Timeout;
 
-    // onMount(() => {
-    //     if (data.instance.TotalWinners) {
-    //         interval = setInterval(() => {
-    //             invalidate('app:admin');
-    //         }, 5000);
-    //     }
-    // });
+    onMount(() => {
+        if (data.instance.TotalWinners) {
+            interval = setInterval(() => {
+                invalidate('app:admin');
+            }, 5000);
+        }
+    });
 
-    // onDestroy(() => {
-    //     if (interval) clearInterval(interval);
-    // });
+    onDestroy(() => {
+        if (interval) clearInterval(interval);
+    });
 
     async function drawAndMapWinners() {
         if (user.contractAddress && user.keyId) {

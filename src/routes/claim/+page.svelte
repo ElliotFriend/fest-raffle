@@ -14,7 +14,28 @@
     import { checkSimulationError } from '$lib/utils';
 
     let isLoading = $state(false);
-    let buttonDisabled = $derived(isLoading || !user.contractAddress || !data.entry?.is_winner);
+    let claimAfter: string = $derived.by(() => {
+        const date = new Date(Number(data.instance.ClaimWindow.after * BigInt(1000)))
+        const now = new Date()
+        if (now >= date) {
+            return "now"
+        } else if (date.toDateString() === now.toDateString()) {
+            return date.toLocaleTimeString()
+        }
+        return date.toLocaleString()
+    })
+    let claimUntil: string = $derived.by(() => {
+        const date = new Date(Number(data.instance.ClaimWindow.until * BigInt(1000)))
+        const now = new Date()
+        if (now >= date) {
+            return "past"
+        } else if (date.toDateString() === now.toDateString()) {
+            return date.toLocaleTimeString()
+        }
+        return date.toLocaleString()
+    })
+    let isClaimableTime = $derived(claimUntil === 'past' || claimAfter !== 'now')
+    let buttonDisabled = $derived(isLoading || !user.contractAddress || !data.entry?.is_winner || !isClaimableTime);
 
     async function claimPrize() {
         if (user.contractAddress && user.keyId) {
@@ -67,7 +88,13 @@
 {:else}
     <h1 class="h1">AUTHORIZE YOUR WIN</h1>
     <p>It's time to find out which labubu is yours!</p>
-    <p>(Tap the button below while Lindsay is watching)</p>
+    <p class="text-sm!">
+        {#if claimUntil === 'past'}
+            Claiming window has expired.
+        {:else}
+            Claiming is available between {claimAfter} and {claimUntil}
+        {/if}
+    </p>
     <button class="btn btn-lg preset-filled w-full" onclick={claimPrize} disabled={buttonDisabled}>
         {#if isLoading}
             <LoaderPinwheel size={24} class="animate-spin" />
