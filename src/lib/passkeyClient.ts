@@ -1,5 +1,5 @@
-import { Server } from '@stellar/stellar-sdk/rpc';
-import { PasskeyKit, SACClient } from 'passkey-kit';
+import { Server } from '@stellar/stellar-sdk/minimal/rpc';
+import { PasskeyKit } from 'passkey-kit';
 
 import {
     PUBLIC_STELLAR_RPC_URL,

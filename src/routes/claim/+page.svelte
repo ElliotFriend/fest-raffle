@@ -6,8 +6,7 @@
     import { user } from '$lib/state/UserState.svelte';
     import { toaster } from '$lib/toaster';
     import { account, send } from '$lib/passkeyClient';
-    import { Api } from '@stellar/stellar-sdk/rpc';
-    import { xdr } from '@stellar/stellar-sdk';
+    import { xdr } from '@stellar/stellar-sdk/minimal';
     import Award from '@lucide/svelte/icons/award';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
     import { invalidate } from '$app/navigation';
@@ -15,27 +14,29 @@
 
     let isLoading = $state(false);
     let claimAfter: string = $derived.by(() => {
-        const date = new Date(Number(data.instance.ClaimWindow.after * BigInt(1000)))
-        const now = new Date()
+        const date = new Date(Number(data.instance.ClaimWindow.after * BigInt(1000)));
+        const now = new Date();
         if (now >= date) {
-            return "now"
+            return 'now';
         } else if (date.toDateString() === now.toDateString()) {
-            return date.toLocaleTimeString()
+            return date.toLocaleTimeString();
         }
-        return date.toLocaleString()
-    })
+        return date.toLocaleString();
+    });
     let claimUntil: string = $derived.by(() => {
-        const date = new Date(Number(data.instance.ClaimWindow.until * BigInt(1000)))
-        const now = new Date()
+        const date = new Date(Number(data.instance.ClaimWindow.until * BigInt(1000)));
+        const now = new Date();
         if (now >= date) {
-            return "past"
+            return 'past';
         } else if (date.toDateString() === now.toDateString()) {
-            return date.toLocaleTimeString()
+            return date.toLocaleTimeString();
         }
-        return date.toLocaleString()
-    })
-    let isClaimableTime = $derived(claimUntil === 'past' || claimAfter !== 'now')
-    let buttonDisabled = $derived(isLoading || !user.contractAddress || !data.entry?.is_winner || !isClaimableTime);
+        return date.toLocaleString();
+    });
+    let isClaimableTime = $derived(claimUntil === 'past' || claimAfter !== 'now');
+    let buttonDisabled = $derived(
+        isLoading || !user.contractAddress || !data.entry?.is_winner || !isClaimableTime,
+    );
 
     async function claimPrize() {
         if (user.contractAddress && user.keyId) {
