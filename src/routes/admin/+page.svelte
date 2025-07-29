@@ -18,8 +18,8 @@
     let isTransacting = $state(false);
     let numberOfWinners = $state(3);
     let buttonText = $derived(data.instance.TotalWinners ? 'Map Winners' : 'Draw Winners');
-    let claimableAfter: string = $state('2025-07-28T13:00');
-    let claimableUntil: string = $state('2025-08-01T22:00');
+    let claimableAfter: string = $state('2025-08-02T15:00');
+    let claimableUntil: string = $state('2025-08-02T18:00');
     let upgradeWasmHash: string = $state('');
     let interval: NodeJS.Timeout;
 
