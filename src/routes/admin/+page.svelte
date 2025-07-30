@@ -151,7 +151,20 @@
 </script>
 
 <h1 class="h1">ADMIN ARENA</h1>
-<p class="text-base!">For Lindsay's Eys Only!</p>
+<p class="text-lg!">For Lindsay's Eys Only!</p>
+
+<dl class="space-y-2">
+    <div class="flex justify-center gap-4">
+        <dt class="font-bold">Total Entries:</dt>
+        <dd class="opacity-80">{data.instance.TotalEntries || 0}</dd>
+    </div>
+    {#if data.instance.WinnersChosen}
+        <div class="flex justify-center gap-4">
+            <dt class="font-bold">Total Claimed:</dt>
+            <dd class="opacity-80">{data.instance.TotalClaimed || 0}</dd>
+        </div>
+    {/if}
+</dl>
 
 {#if !data.instance.WinnersChosen}
     <label class="label">
