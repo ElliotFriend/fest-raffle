@@ -29,6 +29,8 @@
                 });
             }
 
+            await send(signedTx);
+
             user.set({
                 keyId: keyIdBase64,
                 contractAddress: contractId,
@@ -36,8 +38,6 @@
 
             console.log('keyId', user.keyId);
             console.log('contractAddress', user.contractAddress);
-
-            await send(signedTx);
         } catch (err) {
             console.error(err);
             toaster.error({
