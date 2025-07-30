@@ -108,6 +108,29 @@ export type Storage =
 
 export interface Client {
     /**
+     * Construct and simulate a upgrade transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+     */
+    upgrade: (
+        { wasm_hash }: { wasm_hash: Buffer },
+        options?: {
+            /**
+             * The fee to pay for the transaction. Default: BASE_FEE
+             */
+            fee?: number;
+
+            /**
+             * The maximum amount of time to wait for the transaction to complete. Default: DEFAULT_TIMEOUT
+             */
+            timeoutInSeconds?: number;
+
+            /**
+             * Whether to automatically simulate the transaction when constructing the AssembledTransaction. Default: true
+             */
+            simulate?: boolean;
+        },
+    ) => Promise<AssembledTransaction<null>>;
+
+    /**
      * Construct and simulate a set_admin transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
      */
     set_admin: (
@@ -267,6 +290,7 @@ export class Client extends ContractClient {
         super(
             new ContractSpec([
                 'AAAAAAAAAAAAAAANX19jb25zdHJ1Y3RvcgAAAAAAAAEAAAAAAAAABWFkbWluAAAAAAAAEwAAAAA=',
+                'AAAAAAAAAAAAAAAHdXBncmFkZQAAAAABAAAAAAAAAAl3YXNtX2hhc2gAAAAAAAPuAAAAIAAAAAA=',
                 'AAAAAAAAAAAAAAAJc2V0X2FkbWluAAAAAAAAAQAAAAAAAAAJbmV3X2FkbWluAAAAAAAAEwAAAAA=',
                 'AAAAAAAAAAAAAAAOc2V0X2NsYWltX3RpbWUAAAAAAAIAAAAAAAAAC2NsYWltX2FmdGVyAAAAAAYAAAAAAAAAC2NsYWltX3VudGlsAAAAAAYAAAAA',
                 'AAAAAAAAAAAAAAAMZHJhd193aW5uZXJzAAAAAwAAAAAAAAARbnVtYmVyX29mX3dpbm5lcnMAAAAAAAPoAAAABAAAAAAAAAALY2xhaW1fYWZ0ZXIAAAAD6AAAAAYAAAAAAAAAC2NsYWltX3VudGlsAAAAA+gAAAAGAAAAAA==',
@@ -282,6 +306,7 @@ export class Client extends ContractClient {
         );
     }
     public readonly fromJSON = {
+        upgrade: this.txFromJSON<null>,
         set_admin: this.txFromJSON<null>,
         set_claim_time: this.txFromJSON<null>,
         draw_winners: this.txFromJSON<null>,

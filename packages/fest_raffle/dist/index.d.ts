@@ -162,6 +162,30 @@ export type Storage =
       };
 export interface Client {
     /**
+     * Construct and simulate a upgrade transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+     */
+    upgrade: (
+        {
+            wasm_hash,
+        }: {
+            wasm_hash: Buffer;
+        },
+        options?: {
+            /**
+             * The fee to pay for the transaction. Default: BASE_FEE
+             */
+            fee?: number;
+            /**
+             * The maximum amount of time to wait for the transaction to complete. Default: DEFAULT_TIMEOUT
+             */
+            timeoutInSeconds?: number;
+            /**
+             * Whether to automatically simulate the transaction when constructing the AssembledTransaction. Default: true
+             */
+            simulate?: boolean;
+        },
+    ) => Promise<AssembledTransaction<null>>;
+    /**
      * Construct and simulate a set_admin transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
      */
     set_admin: (
@@ -327,6 +351,7 @@ export declare class Client extends ContractClient {
     ): Promise<AssembledTransaction<T>>;
     constructor(options: ContractClientOptions);
     readonly fromJSON: {
+        upgrade: (json: string) => AssembledTransaction<null>;
         set_admin: (json: string) => AssembledTransaction<null>;
         set_claim_time: (json: string) => AssembledTransaction<null>;
         draw_winners: (json: string) => AssembledTransaction<null>;

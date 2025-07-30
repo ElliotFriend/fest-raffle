@@ -10,20 +10,26 @@
     import { account, send } from '$lib/passkeyClient';
     import type { AssembledTransaction } from '@stellar/stellar-sdk/minimal/contract';
     import Truncated from '$lib/components/ui/Truncated.svelte';
-    import { invalidate } from '$app/navigation';
+    import { goto, invalidate } from '$app/navigation';
     import { onDestroy, onMount } from 'svelte';
     import { checkSimulationError } from '$lib/utils';
+    import { Switch } from '@skeletonlabs/skeleton-svelte';
 
     let { data }: PageProps = $props();
-    let isTransacting = $state(false);
-    let numberOfWinners = $state(3);
-    let buttonText = $derived(data.instance.TotalWinners ? 'Map Winners' : 'Draw Winners');
+    $inspect('admin data', data);
+    let isTransacting: boolean = $state(false);
+    let numberOfWinners: number = $state(25);
+    let buttonText: string = $derived(data.instance.TotalWinners ? 'Map Winners' : 'Draw Winners');
+    let customizeClaimWindow: boolean = $state(false);
     let claimableAfter: string = $state('2025-08-02T15:00');
     let claimableUntil: string = $state('2025-08-02T18:00');
     let upgradeWasmHash: string = $state('');
     let interval: NodeJS.Timeout;
 
     onMount(() => {
+        if (!user.contractAddress) {
+            goto('/');
+        }
         if (data.instance.TotalWinners) {
             interval = setInterval(() => {
                 invalidate('app:admin');
@@ -47,8 +53,12 @@
 
                     at = await fest_raffle.draw_winners({
                         number_of_winners: numberOfWinners,
-                        claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),
-                        claim_until: BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000)),
+                        claim_after: customizeClaimWindow
+                            ? BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000))
+                            : undefined,
+                        claim_until: customizeClaimWindow
+                            ? BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000))
+                            : undefined,
                     });
                     checkSimulationError(at.simulation!);
 
@@ -116,9 +126,8 @@
                 isTransacting = true;
                 console.log('upgrading contract');
 
-                let at = await fest_raffle.set_claim_time({
-                    claim_after: BigInt(Math.floor(new Date(claimableAfter).getTime() / 1000)),
-                    claim_until: BigInt(Math.floor(new Date(claimableUntil).getTime() / 1000)),
+                let at = await fest_raffle.upgrade({
+                    wasm_hash: Buffer.from(upgradeWasmHash),
                 });
                 checkSimulationError(at.simulation!);
 
@@ -142,7 +151,7 @@
 </script>
 
 <h1 class="h1">ADMIN ARENA</h1>
-<p>For Lindsay's Eys Only!</p>
+<p class="text-base!">For Lindsay's Eys Only!</p>
 
 {#if !data.instance.WinnersChosen}
     <label class="label">
@@ -154,7 +163,17 @@
             bind:value={numberOfWinners}
         />
     </label>
-    {@render claimTimeInputs()}
+    <div class="flex justify-between items-center gap-4">
+        <p class="text-base!">Customize Claim Window</p>
+        <Switch
+            name="claimWindow"
+            checked={customizeClaimWindow}
+            onCheckedChange={(e) => (customizeClaimWindow = e.checked)}
+        ></Switch>
+    </div>
+    {#if customizeClaimWindow}
+        {@render claimTimeInputs()}
+    {/if}
     <button class="btn preset-filled" onclick={drawAndMapWinners} disabled={isTransacting}>
         {#if isTransacting}
             <LoaderPinwheel size={18} class="animate-spin" />

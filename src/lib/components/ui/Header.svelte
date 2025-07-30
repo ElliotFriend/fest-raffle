@@ -1,6 +1,4 @@
 <script lang="ts">
-    // import { contractAddress } from '$lib/state/contractAddress';
-    // import { keyId } from '$lib/state/keyId';
     import { toaster } from '$lib/toaster';
     import Truncated from './Truncated.svelte';
     import { goto } from '$app/navigation';
@@ -8,6 +6,8 @@
     import { onMount } from 'svelte';
     import { account } from '$lib/passkeyClient';
     import RefreshCw from '@lucide/svelte/icons/refresh-cw';
+    import { PUBLIC_STELLAR_NETWORK } from '$env/static/public';
+    import Copy from '@lucide/svelte/icons/copy';
 
     onMount(async () => {
         if (user.keyId) {
@@ -22,6 +22,13 @@
             });
 
             console.log('contractAddress', user.contractAddress);
+
+            const elemButton = document.querySelector<HTMLButtonElement>('[data-copy-address]');
+            elemButton?.addEventListener('click', () => {
+                navigator.clipboard
+                    .writeText(user.contractAddress!)
+                    .then(() => console.log('copied!'));
+            });
         }
     });
 
@@ -42,8 +49,15 @@
 <header>
     <div class="flex flex-row justify-between p-3">
         {#if user.contractAddress}
-            <div>
-                <Truncated text={user.contractAddress} startChars={5} endChars={5} />
+            <div class="flex content-center">
+                <a
+                    class="underline mr-1"
+                    href={`https://stellar.expert/explorer/${PUBLIC_STELLAR_NETWORK}/contract/${user.contractAddress}`}
+                    target="_blank"
+                >
+                    <Truncated text={user.contractAddress} />
+                </a>
+                <button data-copy-address><Copy size={18} /></button>
             </div>
             <div>
                 <button type="button" class="btn btn-sm preset-filled" onclick={startOver}>

@@ -87,6 +87,7 @@ export class Client extends ContractClient {
         super(
             new ContractSpec([
                 'AAAAAAAAAAAAAAANX19jb25zdHJ1Y3RvcgAAAAAAAAEAAAAAAAAABWFkbWluAAAAAAAAEwAAAAA=',
+                'AAAAAAAAAAAAAAAHdXBncmFkZQAAAAABAAAAAAAAAAl3YXNtX2hhc2gAAAAAAAPuAAAAIAAAAAA=',
                 'AAAAAAAAAAAAAAAJc2V0X2FkbWluAAAAAAAAAQAAAAAAAAAJbmV3X2FkbWluAAAAAAAAEwAAAAA=',
                 'AAAAAAAAAAAAAAAOc2V0X2NsYWltX3RpbWUAAAAAAAIAAAAAAAAAC2NsYWltX2FmdGVyAAAAAAYAAAAAAAAAC2NsYWltX3VudGlsAAAAAAYAAAAA',
                 'AAAAAAAAAAAAAAAMZHJhd193aW5uZXJzAAAAAwAAAAAAAAARbnVtYmVyX29mX3dpbm5lcnMAAAAAAAPoAAAABAAAAAAAAAALY2xhaW1fYWZ0ZXIAAAAD6AAAAAYAAAAAAAAAC2NsYWltX3VudGlsAAAAA+gAAAAGAAAAAA==',
@@ -103,6 +104,7 @@ export class Client extends ContractClient {
         this.options = options;
     }
     fromJSON = {
+        upgrade: this.txFromJSON,
         set_admin: this.txFromJSON,
         set_claim_time: this.txFromJSON,
         draw_winners: this.txFromJSON,
