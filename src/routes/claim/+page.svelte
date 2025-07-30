@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageProps } from './$types';
     let { data }: PageProps = $props();
+    $inspect(data)
 
     import fest_raffle from '$lib/contracts/fest_raffle';
     import { user } from '$lib/state/UserState.svelte';
@@ -33,7 +34,7 @@
         }
         return date.toLocaleString();
     });
-    let isClaimableTime = $derived(claimUntil === 'past' || claimAfter !== 'now');
+    let isClaimableTime = $derived(claimUntil !== 'past' && claimAfter === 'now');
     let buttonDisabled = $derived(
         isLoading || !user.contractAddress || !data.entry?.is_winner || !isClaimableTime,
     );
