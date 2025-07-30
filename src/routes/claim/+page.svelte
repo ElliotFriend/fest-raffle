@@ -13,26 +13,32 @@
     import { invalidate } from '$app/navigation';
     import { checkSimulationError } from '$lib/utils';
 
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent("Just won a custom labubu at FEST ✨\nOnchain lottery → Physical collectible → Digital twin → Pure joy\n\nThe future is a little delulu and absolutely adorable with @BuildonStellar")}`
+
     let isLoading = $state(false);
-    let claimAfter: string = $derived.by(() => {
-        const date = new Date(Number(data.instance.ClaimWindow.after * BigInt(1000)));
-        const now = new Date();
-        if (now >= date) {
-            return 'now';
-        } else if (date.toDateString() === now.toDateString()) {
-            return date.toLocaleTimeString();
+    let claimAfter: string | undefined = $derived.by(() => {
+        if (data.instance.ClaimWindow) {
+            const date = new Date(Number(data.instance.ClaimWindow.after * BigInt(1000)));
+            const now = new Date();
+            if (now >= date) {
+                return 'now';
+            } else if (date.toDateString() === now.toDateString()) {
+                return date.toLocaleTimeString();
+            }
+            return date.toLocaleString();
         }
-        return date.toLocaleString();
     });
-    let claimUntil: string = $derived.by(() => {
-        const date = new Date(Number(data.instance.ClaimWindow.until * BigInt(1000)));
-        const now = new Date();
-        if (now >= date) {
-            return 'past';
-        } else if (date.toDateString() === now.toDateString()) {
-            return date.toLocaleTimeString();
+    let claimUntil: string | undefined = $derived.by(() => {
+        if (data.instance.ClaimWindow) {
+            const date = new Date(Number(data.instance.ClaimWindow.until * BigInt(1000)));
+            const now = new Date();
+            if (now >= date) {
+                return 'past';
+            } else if (date.toDateString() === now.toDateString()) {
+                return date.toLocaleTimeString();
+            }
+            return date.toLocaleString();
         }
-        return date.toLocaleString();
     });
     let isClaimableTime = $derived(claimUntil !== 'past' && claimAfter === 'now');
     let buttonDisabled = $derived(
@@ -79,24 +85,30 @@
 {#if data.claimedAt}
     <h1 class="h1">YOU HAVE WON LABUBU #{data.entry.prize_won}</h1>
     <p>Tell everyone that you're a winner and having fun on chain!</p>
-    <button class="btn btn-lg preset-filled">
-        <span>Post on X</span>
-    </button>
     <a
-        href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-        class="btn btn-lg twitter-share-button"
-        data-show-count="false">Tweet</a
-    ><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        href={tweetUrl}
+        class="btn btn-lg preset-filled"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <span>Post on X</span>
+    </a>
 {:else}
     <h1 class="h1">AUTHORIZE YOUR WIN</h1>
     <p>It's time to find out which labubu is yours!</p>
-    <p class="text-sm!">
-        {#if claimUntil === 'past'}
-            Claiming window has expired.
-        {:else}
-            Claiming is available between {claimAfter} and {claimUntil}
-        {/if}
-    </p>
+    {#if claimAfter && claimUntil}
+        <p class="text-sm!">
+            {#if claimUntil === 'past'}
+                Claiming window has expired.
+            {:else}
+                Claiming is available between {claimAfter} and {claimUntil}
+            {/if}
+        </p>
+    {:else}
+        <p class="text-sm!">
+            Claiming is currently unavailable. Please check again later.
+        </p>
+    {/if}
     <button class="btn btn-lg preset-filled w-full" onclick={claimPrize} disabled={buttonDisabled}>
         {#if isLoading}
             <LoaderPinwheel size={24} class="animate-spin" />

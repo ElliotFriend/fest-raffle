@@ -65,7 +65,7 @@ impl AdminTrait for RaffleContract {
 
         let claim_times = ClaimTime {
             after: claim_after.unwrap_or(1754172000),
-            until: claim_until.unwrap_or(1754175600),
+            until: claim_until.unwrap_or(1754182800),
         };
 
         // make sure claim times make sense:
