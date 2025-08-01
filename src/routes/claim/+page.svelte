@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageProps } from './$types';
     let { data }: PageProps = $props();
-    $inspect(data)
+    $inspect(data);
 
     import fest_raffle from '$lib/contracts/fest_raffle';
     import { user } from '$lib/state/UserState.svelte';
@@ -13,7 +13,7 @@
     import { invalidate } from '$app/navigation';
     import { checkSimulationError } from '$lib/utils';
 
-    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent("Just won a custom labubu at FEST ✨\nOnchain lottery → Physical collectible → Digital twin → Pure joy\n\nThe future is a little delulu and absolutely adorable with @BuildonStellar")}`
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent('Just won a custom labubu at FEST ✨\nOnchain lottery → Physical collectible → Digital twin → Pure joy\n\nThe future is a little delulu and absolutely adorable with @BuildonStellar')}`;
 
     let isLoading = $state(false);
     let claimAfter: string | undefined = $derived.by(() => {
@@ -85,12 +85,7 @@
 {#if data.claimedAt}
     <h1 class="h1">YOU HAVE WON LABUBU #{data.entry.prize_won}</h1>
     <p>Tell everyone that you're a winner and having fun on chain!</p>
-    <a
-        href={tweetUrl}
-        class="btn btn-lg preset-filled"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
+    <a href={tweetUrl} class="btn btn-lg preset-filled" target="_blank" rel="noopener noreferrer">
         <span>Post on X</span>
     </a>
 {:else}
@@ -105,9 +100,7 @@
             {/if}
         </p>
     {:else}
-        <p class="text-sm!">
-            Claiming is currently unavailable. Please check again later.
-        </p>
+        <p class="text-sm!">Claiming is currently unavailable. Please check again later.</p>
     {/if}
     <button class="btn btn-lg preset-filled w-full" onclick={claimPrize} disabled={buttonDisabled}>
         {#if isLoading}
