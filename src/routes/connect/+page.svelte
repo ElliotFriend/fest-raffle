@@ -6,6 +6,7 @@
     import Wallet from '@lucide/svelte/icons/wallet';
     import Fingerprint from '@lucide/svelte/icons/fingerprint';
     import LoaderPinwheel from '@lucide/svelte/icons/loader-pinwheel';
+    import { goto } from '$app/navigation';
 
     let isSigningUp = $state(false);
     let isSigningIn = $state(false);
@@ -38,6 +39,8 @@
 
             console.log('keyId', user.keyId);
             console.log('contractAddress', user.contractAddress);
+
+            goto('/enter');
         } catch (err) {
             console.error(err);
             toaster.error({
@@ -65,6 +68,8 @@
 
             console.log('keyId', user.keyId);
             console.log('contractAddress', user.contractAddress);
+
+            goto('/enter');
         } catch (err) {
             console.error(err);
             toaster.error({
