@@ -209,7 +209,7 @@
                 </tr>
             </thead>
             <tbody class="[&>tr]:hover:preset-tonal-primary">
-                {#each Object.entries(data.winners) as [labubu, winnerRow]}
+                {#each Object.entries(data.winners) as [labubu, winnerRow] (labubu)}
                     <tr>
                         <td>{labubu}</td>
                         <td
